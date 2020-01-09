@@ -1,0 +1,12 @@
+name: incomelevels
+title: IncomeLevels
+username: sld33
+account: sld33
+server: rsconnect.calvin.edu
+hostUrl: https://rsconnect.calvin.edu:3939/__api__
+appId: 36
+bundleId: 58
+url: https://rsconnect.calvin.edu:3939/content/36/
+when: 1578536557.96388
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,0 +1,180 @@
+---
+title: "Income-life expectancy Bubble Chart"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+require(mosaic)
+require(tidyverse)
+require(ggformula)
+require(plotly)
+theme_set(theme_bw())
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+gapminder <- read.csv('http://sldr.netlify.com/data/gapminder_full_clean.csv')
+tutorial_options(exercise.timelimit = 350)
+```
+
+## Dataset
+We will use data from [Gapminder](https://www.gapminder.org/) on life expectancies over time across the globe.
+
+First, we will read in our dataset:
+
+```{r data-in, exercise = TRUE}
+gapminder <- read.csv('http://sldr.netlify.com/data/gapminder_full_clean.csv')
+```
+
+### What happened?
+Did it work? How can we look at the data table? We can use the function `glimpse()`:
+
+```{r glimpse-data, exercise = TRUE}
+glimpse(gapminder)
+```
+
+Another option is to just view the entire (huge) data table:
+
+```{r view-data, exercise = TRUE}
+gapminder
+```
+
+## Life vs. Income
+What if we want to visualize this dataset?
+
+Starting simple, let's make a scatter plot of life expectancy as a function of income.
+
+```{r life-vs-income, exercise = TRUE}
+
+```
+
+```{r life-vs-income-hint-1}
+gf_point(life_expectancy ~ income, data = ___)
+```
+
+```{r life-vs-income-hint-2}
+gf_point(life_expectancy ~ income, data = gapminder)
+```
+
+What patterns do you see? What (other than income) might be affecting life expectancy?
+
+## Regions
+We definitely saw a pattern in the simple scatter plot. But how do different regions compare?
+
+### Multiple Panels
+Try creating a plot with one panel for each of the four regions.  *You might need to `glimpse()` the data again to find the name of the variable that gives the regions.*
+
+```{r multi-panel, exercise = TRUE}
+
+```
+
+```{r multi-panel-hint-1}
+gf_point(life_expectancy ~ income | ____ , data = gapminder)
+```
+
+```{r multi-panel-hint-2}
+gf_point(life_expectancy ~ income | four_regions , data = gapminder)
+```
+
+### Colors
+Another idea would be to use a different color for each region.
+
+```{r regions, exercise = TRUE, fig.width = 8}
+
+```
+
+```{r regions-hint-1}
+gf_point(life_expectancy ~ income, color = ~four_regions, data = gapminder)
+```
+
+## Time
+We expect that there were changes over time in both income and life expectancy. How can we show that one this plot?  Using multiple panels would not work, because there are too many years in the dataset. What about using color for year?
+
+```{r time, exercise = TRUE}
+
+```
+
+```{r time-hint-1}
+gf_point(life_expectancy ~ income, color = ~___, data = gapminder)
+```
+
+```{r time-hint-2}
+gf_point(life_expectancy ~ income, color = ~year, data = gapminder)
+```
+
+What are the pros and cons of this visualization? What is clear to see, and what patterns are still confusing or hard to see?
+
+## Population
+Another huge difference between countries and regions is the number of people who live there. Is there a way to include *that* in our chart?
+
+```{r pop, exercise = TRUE}
+
+```
+
+```{r pop-hint-1}
+gf_point(life_expectancy ~ income, size = ~___, data = gapminder)
+```
+
+```{r pop-hint-2}
+gf_point(life_expectancy ~ income, size = ~population, data = gapminder)
+```
+
+```{r pop-hint-3}
+gf_point(life_expectancy ~ income, size = ~population, 
+         alpha = 0.5, data = gapminder)
+```
+
+How is this useful (or not)?  Would it be better if combined with coloring by region (see next section)?
+
+
+## Population and Region
+How could we include both region *and* population?  Just combine the `size` and `color` inputs:
+
+```{r region-and-pop, exercise = TRUE}
+
+```
+
+```{r region-and-pop-hint-1}
+gf_point(life_expectancy ~ income, size = ~___, color = ~____,
+         data = gapminder)
+```
+
+```{r region-and-pop-hint-2}
+gf_point(life_expectancy ~ income, size = ~population, 
+         color = ~four_regions,
+         data = gapminder)
+```
+
+Cool!  But what about time? We need **another dimension** to show everything...
+
+## Animated bubble chart
+What if we **animate** the chart to show how things change over time?
+
+First, run the code as given. *(It will take a while...have patience.)*
+
+```{r create-graph, exercise = TRUE}
+#gapminder <- gapminder %>% filter(year > 1990)
+bubbles <- gf_point(life_expectancy ~ income, 
+         color = ~four_regions,
+         size = ~population,
+         data = gapminder) %>%
+  gf_refine(aes(frame = year, ids = country)) # %>%
+ # gf_text(life_expectancy ~ income, label = ~country, size = 3,
+  #        hjust = 0, vjust = 1, color = 'black', alpha = 0.5)
+
+ggplotly(bubbles)
+```
+
+The hash tags comment out code in R (preventing it from running).
+
+What do you think will happen if you uncomment the first line?  Give it a try (changing the year threshold to something other than 1990 if you wish).
+
+What about the later two lines? Remove the three hash tags there and see what happens.
+
+Which version do you most prefer?
+
+### The Story
+What story does your final chart tell? Try to put it into words, in a few sentences.
+
+What questions does this animation raise for you (about income vs. life expectancy, about how the data were collected, or about graphics)?
+
+What further refinements would you like to make to make the animation even better?

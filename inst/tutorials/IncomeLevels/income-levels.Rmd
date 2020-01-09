@@ -1,0 +1,154 @@
+---
+title: "Income Levels"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.width = 6.5,
+                      fig.height = 4.5,
+                      message = FALSE, warning = FALSE)
+require(mosaic)
+require(tidyverse)
+require(learnr)
+theme_set(theme_bw(base_size = 12))
+incomes <- read_csv('https://sldr.netlify.com/data/global_incomes.csv')
+```
+
+## Data
+First, read in some data on a sample of 25,000 individuals from around the world and their daily income (in dollars). (This data is simulated, but based on real data.)
+
+```{r data-in, exercise = TRUE}
+incomes <- read_csv('https://sldr.netlify.com/data/global_incomes.csv')
+```
+
+Look at the dataset - either printing it to the screen or using function `glimpse()`. What variables does it contain?
+
+## Exploration
+This tutorial will present a series of different plots to explore the data. 
+
+- Which do you prefer and why? 
+- What does each one show best? 
+- How do they compare to plots in *Factfulness* Chapter 1 on pages 33 and 41?
+
+## Basic histogram
+Let's begin with a basic histogram of income (variable `dollars_per_day`).
+
+```{r income-hist, exercise = TRUE}
+
+```
+
+```{r income-hist-hint-1}
+gf_histogram(~_________, data = __________)
+```
+
+```{r income-hist-hint-2}
+gf_histogram(~_________, data = incomes)
+```
+
+```{r income-hist-hint-3}
+gf_histogram(~dollars_per_day, data = incomes)
+```
+
+## Income by Region
+What about modifying the histogram so it has one panel per region?
+
+```{r, income-by-region, exercise = TRUE}
+
+```
+
+```{r income-by-region-hint-1}
+gf_histogram(~dollars_per_day | _______, data = incomes)
+```
+
+```{r income-by-region-hint-2}
+gf_histogram(~dollars_per_day | region, data = incomes)
+```
+
+## Histogram bins
+Would the figure be more informative with more or fewer histogram bins?  Adjust the number of bins (`bins`) to see what you think the optimal number is.
+
+```{r hist-bins, exercise = TRUE}
+gf_histogram(~dollars_per_day, data = incomes,
+             bins = 10)
+```
+
+## Income by level
+By default, histogram bin widths are equal, but if you choose you can specify arbitrary size bins. Why would you?
+
+One idea would be to have one bin for each of Rossling's "Levels" I - IV: up to \$2 per day, up to \$8 per day, up to \$32 per day, and above \$32 per day, as shown below: 
+
+```{r, level-bins, exercise = TRUE}
+gf_histogram(~dollars_per_day, data = incomes,
+             breaks = c(0, 2, 8, 32, 600))
+```
+
+What is unclear and unappealing about this plot? What, on the other hand, is informative and useful to notice? Why doesn't it resemble the one on page 33? 
+
+## Income by level, log scale
+In our last plot, our dollars-per-day axis was on a linear scale. In Rossling's plots, the distance along the axis from 0-2 and 2-8 and 8-32 dollars is *equal* - the plots are on approximately a logarithmic scale.
+
+Could we improve the look of our plot by using such a scale?
+
+```{r, levels-log, exercise = TRUE}
+gf_histogram(~dollars_per_day, data = incomes,
+             breaks = c(0.2, 2, 8, 32, 600)) %>%
+  gf_refine(scale_x_continuous(trans = 'log2'))
+```
+
+How does this compare to the chart on page 33? Which do you prefer?  What is emphasized in our chart (still) and neglected in the book one?  How is the book chart usefully simplified?
+
+## Log levels by region
+Keeping the same scale for dollars-per-day, let's now try plotting by region.
+
+```{r log-level-by-region, exercise = TRUE}
+
+```
+
+```{r log-level-by-region-hint-1}
+gf_histogram(~ ... ) %>%
+  gf_refine(...)
+```
+
+```{r log-level-by-region-hint-2}
+gf_histogram(~dollars_per_day | ______, data = incomes,
+             breaks = c(0.2, 2, 8, 32, 600)) %>%
+  gf_refine(...)
+```
+
+```{r log-level-by-region-hint-3}
+gf_histogram(~dollars_per_day | region, data = incomes,
+             breaks = c(0.2, 2, 8, 32, 600)) %>%
+  gf_refine(scale_x_continuous(trans = ___))
+```
+
+```{r log-level-by-region-hint-4}
+gf_histogram(~dollars_per_day | region, data = incomes,
+             breaks = c(0.2, 2, 8, 32, 600)) %>%
+  gf_refine(scale_x_continuous(trans = 'log2'))
+```
+
+## Density by region
+We could show the same figure using density plots (like the smoothed profile of the histogram), and coloring by region instead of having multiple panels.
+
+```{r, density-by-region, exercise = TRUE}
+gf_density(~dollars_per_day, fill = ~region, data = incomes,
+             breaks = c(0.5, 2, 8, 32, 600)) %>%
+  gf_refine(scale_x_continuous(trans = 'log2'))
+```
+
+Does this make it easier or harder to compare regions?
+
+## Stacked density
+We can also stack the density regions instead of overlaying them:
+
+```{r dens-stack, exercise = TRUE}
+gf_density(~dollars_per_day, fill = ~region, data = incomes,
+           position = 'stack',
+           breaks = c(0.5, 2, 8, 32, 600)) %>%
+  gf_refine(scale_x_continuous(trans = 'log2'))
+```
+
+Which do you prefer, the overlaid or stacked version? Why?
+
+Why do you think the *Factfulness* authors chose to use the plots they did, rather than one or more like the ones you just made? What are the advantages and disadvantages of their approach? 
