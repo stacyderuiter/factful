@@ -1,0 +1,94 @@
+---
+title: "US Incomes and Education"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(mosaic)
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+incomes <- read_csv('https://sldr.netlify.com/data/incomes.csv') %>%
+  mutate(education = forcats::fct_relevel(factor(education),
+                                          "Less than 9th grade",
+                                          "Some high school",
+                                          "High school graduate",
+                                          "Some college",
+                                          "Associate degree",
+                                          "Bachelor degree",
+                                          "Master degree",
+                                          "Professional degree",
+                                          "Doctoral degree"))
+```
+
+
+## Data
+Data on US median incomes was obtained from:
+
+<from https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-people/p16.xls>
+
+The cleaned up data is hosted at: <https://sldr.netlify.com/data/incomes.csv>; read this data into R.
+
+```{r data-in, exercise = TRUE}
+
+```
+
+```{r data-in-hint-1}
+incomes <- read_csv( ___________ )
+```
+
+```{r data-in-hint-2}
+incomes <- read_csv('https://sldr.netlify.com/data/incomes.csv')
+```
+
+## Trends
+How does median income change over time?
+
+```{r income-over-time, exercise = TRUE}
+
+```
+
+
+```{r income-over-time-hint-1}
+gf_point(median_income ~ year, data = incomes)
+```
+
+## Education
+Why do there seem to be so many different trend lines?  **Education** is one factor that strongly affects income. Color by `education` level to see:
+
+```{r color-by-ed, exercise = TRUE}
+
+```
+
+```{r color-by-ed-hint-1}
+gf_point(median_income ~ year, data = incomes, color = ~education)
+```
+
+## Sex
+There still seem to be multiple lines for each education level. What is going on? What if we make the `shape` of the points depend on the worker's `sex`?
+
+```{r income-by-sex, exercise = TRUE}
+
+```
+
+
+```{r income-by-sex-hint-1}
+gf_point(median_income ~ year, data = incomes, 
+         color = ~education,
+         shape = ~sex)
+```
+
+**Now how would you describe the trends and patterns in US median incomes?**
+
+*How might average (mean) incomes be different, and why does it probably make sense to use medians?*
+
+
+## A Paradox
+What is the trend in incomes between about 2000 and 2005, for almost all groups?
+
+Many sources, however, report that US median incomes overall have **increased** in the same period.
+
+*Both are actually true.*
+
+How is this possible!?!
