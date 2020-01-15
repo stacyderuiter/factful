@@ -1,0 +1,12 @@
+name: recidivism
+title: Recidivism
+username: sld33
+account: sld33
+server: rsconnect.calvin.edu
+hostUrl: https://rsconnect.calvin.edu:3939/__api__
+appId: 38
+bundleId: 60
+url: https://rsconnect.calvin.edu:3939/content/38/
+when: 1579088285.44633
+asMultiple: FALSE
+asStatic: FALSE
