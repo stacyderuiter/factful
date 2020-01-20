@@ -1,0 +1,12 @@
+name: airline
+title: Airline
+username: sld33
+account: sld33
+server: rsconnect.calvin.edu
+hostUrl: https://rsconnect.calvin.edu:3939/__api__
+appId: 41
+bundleId: 63
+url: https://rsconnect.calvin.edu:3939/content/41/
+when: 1579523257.3679
+asMultiple: FALSE
+asStatic: FALSE

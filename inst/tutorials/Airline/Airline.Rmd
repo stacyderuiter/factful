@@ -1,0 +1,125 @@
+---
+title: "Cluster Analysis: Airline Crashes"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(mosaic)
+knitr::opts_chunk$set(echo = FALSE)
+air <- read_csv('https://raw.githubusercontent.com/fivethirtyeight/data/master/airline-safety/airline-safety.csv')
+air <- air %>%
+  mutate(fatality_rate_85_99 = fatalities_85_99 / avail_seat_km_per_week,
+         fatality_rate_00_14 = fatalities_00_14 / avail_seat_km_per_week)
+clus_data <- air %>%
+  select(fatality_rate_85_99, 
+         fatality_rate_00_14)
+fatality_clusters <- kmeans(clus_data, centers = 4)
+air <- air %>% 
+  mutate(cluster = factor(fatality_clusters$cluster))
+```
+
+
+## Data
+Data are from <https://raw.githubusercontent.com/fivethirtyeight/data/master/airline-safety/airline-safety.csv>, and are presented as part of a story entitled, ["Should travelers avoid flying airlines that have had crashes in the past?"](http://fivethirtyeight.com/features/should-travelers-avoid-flying-airlines-that-have-had-crashes-in-the-past/) on fivethirtyeight.com.
+
+It includes information on how many seat-km per week each airline in the dataset flies (so we can adjust incident rates for miles flown), as well as the numbers of safety incidents, fatal accidents, and fatalities in each of two periods (1985 - 1999 and 2000 - 2014).
+
+We will focus our attention on the number of fatalities first (you are encouraged to repeat the exercise with other variables if you have time).
+
+First, we read in the data set and call it `air`:
+
+```{r data-in, exercise = TRUE}
+
+```
+
+```{r data-in-hint-1}
+air <- read_csv(...)
+```
+
+```{r data-in-hint-2}
+air <- read_csv('https://raw.githubusercontent.com/fivethirtyeight/data/master/airline-safety/airline-safety.csv')
+```
+
+
+## Scaling for Miles Flown
+First, we have to compute the *rate* of fatalities per seat-km (instead of just the raw number per airline and period).  
+
+We will use `mutate()` to create the new variables `fatality_rate_85_89` and `fatality_rate_00_14`:
+
+```{r compute-rates, exercise = TRUE}
+
+```
+
+```{r compute-rates-hint-1}
+air <- air %>%
+  mutate(fatality_rate_85_99 =  ... ,
+         fatality_rate_00_14 = ... )
+```
+
+```{r compute-rates-hint-2}
+air <- air %>%
+  mutate(fatality_rate_85_99 = fatalities_85_99 / avail_seat_km_per_week,
+         fatality_rate_00_14 = fatalities_00_14 / avail_seat_km_per_week)
+```
+
+## Visualize
+Are there clear patterns in the rate of fatalities for different airlines? Do they cluster together as having high or low rates in one or both time periods?
+
+First, let's try to explore graphically.
+
+```{r fatal-plot, exercise = TRUE}
+
+```
+
+```{r fatal-plot-hint-1}
+gf_point(...)
+```
+
+```{r fatal-plot-hint-2}
+gf_point( ... ~ ... , data = air)
+```
+
+```{r fatal-plot-hint-3}
+gf_point(fatality_rate_00_14 ~ fatality_rate_85_99, data = air,
+         alpha = 0.5)
+```
+
+What patterns do you see? Which regions of the graph show airlines that you would be willing to travel on, or ones that you would definitely avoid?
+
+## Clustering
+
+What if we try to group together airlines with similar fatality rates (perhaps to classify them as always safe, never safe, used to be safer, used to be less safe, etc)?
+
+For this, we can use k-means clustering. The code below groups airlines into 4 groups based on similarity of fatality rates during the two periods.
+
+First, we need to create a new dataset with only the variables we want to use for the clustering.
+
+
+```{r}
+clus_data <- air %>%
+  select(fatality_rate_85_99, 
+         fatality_rate_00_14)
+```
+
+Next, do the clustering, add the results to the data set, and view the results:
+
+```{r clustering, exercise = TRUE}
+fatality_clusters <- kmeans(clus_data, centers = 4)
+air <- air %>% 
+  mutate(cluster = factor(fatality_clusters$cluster))
+
+gf_point(fatality_rate_00_14 ~ fatality_rate_85_99, data = air,
+         alpha = 0.5,
+         color = ~cluster)
+air %>% 
+  select(airline, cluster) %>% 
+  arrange(cluster) %>%
+  knitr::kable()
+```
+
+What happens if you change the number of clusters? What number do you think is the best?
+
+When you are satisfied with the clusters that you have created -- Do any of the results (groupings where specific airlines fall) surprise you? And which airlines would you prefer to use now?
