@@ -1,0 +1,507 @@
+---
+title: "Olympics"
+output: 
+  learnr::tutorial:
+    incremental: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(mosaic)
+library(tidyverse)
+library(plotly)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
+                      fig.width = 8, fig.height = 5)
+olympic <- read_csv('https://sldr.netlify.com/data/athlete_events.csv')
+nocs <- read_csv('https://sldr.netlify.com/data/noc_regions.csv')
+
+olympic <- left_join(olympic, nocs)
+theme_set(theme_bw(base_size = 11))
+sex_by_year <- olympic %>%
+  group_by(Year) %>%
+  summarise(perc_female = 100*prop(~Sex == "F"),
+            team_size = n()) %>%
+  ungroup
+since_2000 <- olympic %>%
+  filter(Year >= 2000) %>%
+  group_by(region) %>%
+  summarise(perc_female = 100*prop(~Sex == 'F'),
+            team_size = n())
+since_2000b <- since_2000 %>%
+  mutate(region = factor(region),
+         region = fct_reorder(region, perc_female))
+
+aw_nations <- c('Jordan', 'Palestine', 'Syria',
+                'Lebanon', 'Morocco', 'Mauritania',
+                'Algeria', 'Tunisia', 'Libya',
+                'Sudan', 'Somalia', 'Egypt',
+                'Saudi Arabia', 'Yemen', 'Oman',
+                'Qatar', 'Bahrain', 'Kuwait',
+                'Comoros Islands', 'Iraq',
+                'Djibouti', 'United Arab Emirates')
+
+since_2000b <- since_2000b %>%
+  mutate(arab_world = ifelse(region %in% aw_nations,
+                             'Yes',
+                             'No'))
+
+animate_data <- olympic %>%
+  group_by(Year, region) %>%
+  summarise(perc_female = 100*prop(~Sex == 'F'),
+            team_size = n()) %>%
+  ungroup() %>%
+  mutate(arab_world = factor(ifelse(region %in% aw_nations,
+                             'Yes',
+                             'No'))) %>%
+  mutate(region = factor(region, levels = levels(since_2000b$region)))
+
+all_combos <- expand.grid(region = levels(factor(olympic$region, 
+                                        levels = levels(since_2000b$region))),
+                          Year = levels(factor(olympic$Year)))
+
+animate_data0 <- olympic %>%
+  mutate(Year = factor(Year),
+         region = factor(region, levels = levels(since_2000b$region))) %>%
+  group_by(Year, region, .drop = FALSE) %>%
+  summarise(perc_female = 100*prop(~Sex == 'F'),
+            team_size = n()) %>%
+  ungroup() %>%
+  mutate(arab_world = factor(ifelse(region %in% aw_nations,
+                             'Yes',
+                             'No'))) 
+
+animate_data <- left_join(all_combos, animate_data0)
+
+seasonal_data0 <- olympic %>%
+  mutate(Year = factor(Year),
+         region = factor(region, levels = levels(since_2000b$region))) %>%
+  group_by(Year, region, Season, .drop = FALSE) %>%
+  summarise(perc_female = 100*prop(~Sex == 'F'),
+            team_size = n()) %>%
+  ungroup() %>%
+  mutate(arab_world = factor(ifelse(region %in% aw_nations,
+                             'Yes',
+                             'No'))) 
+
+seasonal_data <- left_join(all_combos, seasonal_data0)
+
+summer <- seasonal_data %>%
+  mutate(perc_female = ifelse(Season != "Summer", NA, perc_female))
+
+winter <- seasonal_data %>%
+  mutate(perc_female = ifelse(Season != "Winter", NA, perc_female))
+```
+
+## Norms and Woman Olympians
+Today's reading outlined reasons why norms in much of the Arab world, especially in collectivist societies, often limit women's participation in sport and sporting events.
+
+```{r quiz}
+quiz(
+  question("In the chapter, Abadeer tells the story of the first two women from Saudi Arabia to participate in the Olympic games. Do you remember the year they competed?
+",
+    answer("1948"),
+    answer("1960"),
+    answer("1994"),
+    answer("2012", correct = TRUE)
+  )
+)
+```
+
+In this tutorial, we will explore participation by women in the Olympics over time and by country, particularly looking for patterns in the Arab world.
+
+**As you complete the activity, think about:**
+
+- Are you learning new things about the world from the data, or new things about how to best analyze and present data?
+- You will identify some *patterns* in the data. Are these *patterns* actually *problems* that require some action, or just the way things are? (You can answer for yourself, or from the perspective of an American, or a CRC member.) How do you justify your position?
+
+
+## Data Source
+The data used here were scraped from www.sports-reference.com in 2018 by Randi Griffin, and then [made available on kaggle.com](https://www.kaggle.com/heesoo37/120-years-of-olympic-history-athletes-and-results). They provide information on individual competitors in Olympic games from 1896 to 2019, including sex and region (country).
+
+The dataset is called `olympic`. Below, use the R function `glimpse()` to see which variables it includes (and the first few rows of data).
+
+```{r glimpse-data, exercise = TRUE}
+
+```
+
+```{r glimpse-data-hint-1}
+glimpse(...)
+```
+
+```{r glimpse-data-hint-2}
+glimpse(olympic)
+```
+
+## Over Time
+A statement on women in sport at [olympic.org](https://www.olympic.org/women-in-sport/background/statistics) states that "The number of women athletes at the Olympic Games is approaching 50 per cent." How has it changed over time?
+
+Let's view a bar graph showing proportions male and female olympians (variable `Sex`) by `Year`.
+
+First we have to make a new dataset with one row per year, and a column that gives the percent female.
+
+```{r}
+sex_by_year <- olympic %>%
+  group_by(Year) %>%
+  summarise(perc_female = 100*prop(~Sex == "F"),
+            team_size = n()) %>%
+  ungroup
+```
+
+```{r over-time, exercise = TRUE}
+
+```
+
+```{r over-time-hint-1}
+gf_col(...)
+```
+
+```{r over-time-hint-2}
+gf_col(..., data = sex_by_year)
+```
+
+```{r over-time-hint-3}
+gf_col(perc_female ~ Year, data = sex_by_year)
+```
+
+```{r over-time-hint-4}
+gf_point(perc_female ~ Year, data = sex_by_year,
+       ylab = 'Percent Female') %>%
+  gf_lims(y = c(0,100)) %>%
+  gf_hline(yintercept = 50, linetype = 'dashed',
+           color = 'grey')
+```
+
+How would you describe the trend in female participation over time in the Olympic games overall?
+
+## By Country
+What about differences by country? 
+
+Which countries do you expect to have the most, and fewest, female participants in the olympics?
+
+Let's look at just data for Games since 2000 for an initial look. First, we will use the `filter()` function to get just data where the `Year` is greater than or equal to 2000, and then we will compute the percent female by country much as we did before for the percentages by year.
+
+```{r recent-by-country, exercise = TRUE}
+
+```
+
+```{r recent-by-country-hint-1}
+since_2000 <- olympic %>%
+  filter(Year ...) %>%
+  ...
+```
+
+```{r recent-by-country-hint-2}
+since_2000 <- olympic %>%
+  filter(Year >= 2000) %>%
+  group_by(...) %>%
+  summarise(perc_female = ...)
+```
+
+```{r recent-by-country-hint-3}
+since_2000 <- olympic %>%
+  filter(Year >= 2000) %>%
+  group_by(region) %>%
+  summarise(perc_female = 100*prop(~Sex == 'F'),
+            team_size = n())
+```
+
+### Initial Graph
+Now, we can graph the percent female athletes by country:
+
+```{r recent-by-country-graph, fig.height = 28, fig.width = 7}
+gf_point(perc_female ~ region, data = since_2000) %>%
+  gf_refine(coord_flip())
+```
+
+What a mess! With the countries sorted in alphabetical order, the plot is nearly impossible to read.
+
+### Revised Graph
+One solution is to instead sort by percent female athletes:
+
+```{r}
+since_2000b <- since_2000 %>%
+  mutate(region = factor(region),
+         region = fct_reorder(region, perc_female))
+```
+
+Now, we can make the graph as before. (See how much of the code you can remember and fill in without peeking.)
+
+```{r recent-sorted, exercise = TRUE, fig.width = 5, fig.height = 28}
+gf_point( ... ~ ..., data = ...,
+          ylab = ...) %>%
+  gf_refine(...)
+```
+
+```{r recent-sorted-hint-1}
+gf_point(region ~ perc_female, 
+         data = since_2000b,
+         xlab = 'Percent Female') %>%
+  gf_vline(xintercept = 50, color = 'grey',
+           linetype = 'dashed') %>%
+  gf_lims(x = c(0,100))
+```
+
+## Arab World vs. The Rest
+The reading suggests that other Arab countries, like Saudi Arabia, may have low female participation in the Olympics.
+
+Is our dataset consistent with that claim? It would be easier to see if we could highlight data points from countries in the Arab world.
+
+### Arab World Identifier
+Let's create a new variable that identifies whether a country is part of the Arab world or not.
+
+One definition of the Arab world includes the following 22 countries: Jordan, Palestine, Syria, Lebanon, Morocco, Mauritania, Algeria, Tunisia, Libya, Sudan, Somalia, Egypt, Saudi Arabia, Yemen, Oman, Qatar, Bahrain, Kuwait, the Comoros Islands, Iraq, Djibouti, United Arab Emirates.
+
+We can create a new variable that indicates whether or not each country is part of this list:
+
+```{r}
+aw_nations <- c('Jordan', 'Palestine', 'Syria',
+                'Lebanon', 'Morocco', 'Mauritania',
+                'Algeria', 'Tunisia', 'Libya',
+                'Sudan', 'Somalia', 'Egypt',
+                'Saudi Arabia', 'Yemen', 'Oman',
+                'Qatar', 'Bahrain', 'Kuwait',
+                'Comoros Islands', 'Iraq',
+                'Djibouti', 'United Arab Emirates')
+
+since_2000b <- since_2000b %>%
+  mutate(arab_world = ifelse(region %in% aw_nations,
+                             'Yes',
+                             'No'))
+glimpse(since_2000b)
+```
+
+Now, all we do is make the same plot as before, but color the dots according to whether they are part of the Arab world or not.
+
+```{r recent-arab, exercise = TRUE, fig.width = 7, fig.height = 20}
+
+```
+
+```{r recent-arab-hint-1}
+gf_point(region ~ perc_female, 
+         data = since_2000b,
+         color = ~arab_world,
+         xlab = 'Percent Female',
+         show.legend = FALSE) %>%
+  gf_vline(xintercept = 50, color = 'grey',
+           linetype = 'dashed') %>%
+  gf_lims(x = c(0,100)) 
+```
+
+To make this plot a little easier to read, we might want to make it interactive, so that when you hover over a point its country pops up. To do it, use the same code from before, but "pipe" (`%>%`) the results to function `ggplotly()`:
+
+```{r recent-interactive, exercise = TRUE, fig.width = 7, fig.height = 20}
+
+```
+
+```{r recent-interactive-hint-1}
+gf_point(region ~ perc_female, 
+         data = since_2000b,
+         color = ~arab_world,
+         xlab = 'Percent Female',
+         show.legend = FALSE,
+         labels) %>%
+  gf_vline(xintercept = 50, color = 'grey',
+           linetype = 'dashed') %>%
+  gf_lims(x = c(0,100)) %>%
+  ggplotly()
+```
+
+What do you notice?
+
+- What do you think might be different about Arab world nations that have many female participants?
+- What about non-Arab world nations with few?
+
+One factor that might affect participation, suggested in today's reading, is whether a nation is more individualist or collectivist.
+
+Consider a few countries of interest from the last plot. Visit <https://www.hofstede-insights.com/country-comparison/> and find out out their score on Hofstede's Individualism scale (numbers closer to 0 indicate a more collectivist culture, and closer to 100 more individualist).
+
+- Do the Hofstede individualism scores help explain any of the surprises?
+- What else do you notice? What else are you still curious about in this figure?
+
+### Other Dimensions
+One more suggestion is to read a bit more about Hofstede's six dimensions of national culture at <https://www.hofstede-insights.com/models/national-culture/>.  
+
+- Are there other dimensions that seem to relate closely to the patterns you see in the Olympic Games data?
+
+```{r recent-interactive-reprise, fig.width = 7, fig.height = 25, echo = FALSE}
+gf_point(region ~ perc_female, 
+         data = since_2000b,
+         color = ~arab_world,
+         xlab = 'Percent Female',
+         show.legend = FALSE,
+         labels) %>%
+  gf_vline(xintercept = 50, color = 'grey',
+           linetype = 'dashed') %>%
+  gf_lims(x = c(0,100)) %>%
+  ggplotly()
+```
+
+## All Countries Over Time
+What if we could combine the two factors we've been investigating (differences over time and differences between countries) into a single plot?
+
+We could do it...if we were able to *animate* our plot by country, with the dots moving as each year passes.
+
+Luckily, this is a relatively simple addition!
+
+We do need another new dataset, though -- one with one row per year and per country, and a column for percent female athletes.
+
+```{r anim-data, exercise = TRUE}
+
+```
+
+```{r anim-data-hint-1}
+animate_data <- olympic %>%
+  group_by(...) %>%
+  summarise(...) %>%
+  ungroup()
+```
+
+
+```{r anim-data-hint-2}
+all_combos <- expand.grid(region = levels(factor(olympic$region, 
+                                        levels = levels(since_2000b$region))),
+                          Year = levels(factor(olympic$Year)))
+
+animate_data0 <- olympic %>%
+  mutate(Year = factor(Year),
+         region = factor(region, levels = levels(since_2000b$region))) %>%
+  group_by(Year, region, .drop = FALSE) %>%
+  summarise(perc_female = 100*prop(~Sex == 'F'),
+            team_size = n()) %>%
+  ungroup() %>%
+  mutate(arab_world = factor(ifelse(region %in% aw_nations,
+                             'Yes',
+                             'No'))) 
+
+animate_data <- left_join(all_combos, animate_data0) 
+```
+
+### The Plot
+Now, we want the same plot as before -- one dot for each country's proportion female -- but animated by `Year`.
+
+See if you can identify the small changes in the code that make this big change in the plot. (We also add code to remove the country labels on the y axis, so we can fit the whole plot on one screen. You can pause and mouse over if you want to ID individual data points.)
+
+```{r animated-graph, exercise = TRUE}
+
+```
+
+```{r animated-graph-hint-1, fig.width = 7, fig.height = 5, echo = FALSE}
+animated <- gf_point(region ~ perc_female, 
+         data = animate_data,
+         color = ~arab_world,
+         xlab = 'Percent Female', ylab = '',
+         show.legend = FALSE) %>%
+  gf_lims(x = c(0,100)) %>%
+  gf_refine(aes(frame = Year, ids = region)) %>%
+  gf_theme(axis.text.y = element_blank())
+
+  ggplotly(animated)
+```
+
+Very interesting! Can you explain any of the patterns that you see in the animation?
+
+- Why is there so much more variation that there was in the other plot by country?
+- Why do the dots keep moving back and forth en masse, switching from low percent women one Olympic Games to high the next?
+
+## Summer vs Winter?
+One idea might be that summer and winter games are different in the male/female team composition.  If we made the same plot, but by season, we might be able to verify or refute this idea.
+
+```{r assemble-seasonal, exercise = TRUE}
+
+```
+
+```{r assemble-seasonal-hint-1}
+seasonal_data0 <- olympic %>%
+  mutate(Year = factor(Year),
+         region = factor(region, levels = levels(since_2000b$region))) %>%
+  group_by(Year, region, Season, .drop = FALSE) %>%
+  summarise(perc_female = 100*prop(~Sex == 'F'),
+            team_size = n()) %>%
+  ungroup() %>%
+  mutate(arab_world = factor(ifelse(region %in% aw_nations,
+                             'Yes',
+                             'No'))) 
+
+seasonal_data <- left_join(all_combos, seasonal_data0)
+```
+
+### Seasonal plots
+
+```{r summer-plot, exercise = TRUE}
+
+```
+
+```{r summer-plot-hint-1}
+summer <- seasonal_data %>%
+  mutate(perc_female = ifelse(Season != "Summer", NA, perc_female))
+
+summer_plot <- gf_point(region ~ perc_female,
+                     title = 'Summer Olympics',
+         data = summer,
+         color = ~arab_world,
+         xlab = 'Percent Female', ylab = '',
+         show.legend = FALSE) %>%
+  gf_lims(x = c(0,100)) %>%
+  gf_refine(aes(frame = Year, ids = region)) %>%
+  gf_theme(axis.text.y = element_blank())
+
+  ggplotly(summer_plot)
+```
+
+### Winter Games
+
+First make the winter data:
+
+```{r}
+winter <- seasonal_data %>%
+  mutate(perc_female = ifelse(Season != "Winter", NA, perc_female))
+```
+
+```{r winter-plot, exercise = TRUE}
+
+```
+
+```{r winter-plot-hint-1}
+winter_plot <- gf_point(region ~ perc_female,
+                     title = 'Winter Olympics',
+         data = winter,
+         color = ~arab_world,
+         xlab = 'Percent Female', ylab = '',
+         show.legend = FALSE) %>%
+  gf_lims(x = c(0,100)) %>%
+  gf_refine(aes(frame = Year, ids = region)) %>%
+  gf_theme(axis.text.y = element_blank())
+
+  ggplotly(winter_plot)
+```
+
+
+## Team Size
+What other information is missing to help put these plots into context? One issue is that the size of Olympic teams varies widely over time and place.  What do we learn if we resize the data dots according to the team size?
+
+We just need to add the input `size = ~team_size` (followed by a comma) into the call to `gf_point()`:
+
+```{r summer-size, exercise = TRUE}
+summer_plot <- gf_point(region ~ perc_female,
+                     title = 'Summer Olympics',
+         data = summer,
+         color = ~arab_world,
+         ...  ,   # add size info here!
+         xlab = 'Percent Female', ylab = '',
+         show.legend = FALSE) %>%
+  gf_lims(x = c(0,100)) %>%
+  gf_refine(aes(frame = Year, ids = region)) %>%
+  gf_theme(axis.text.y = element_blank())
+
+  ggplotly(summer_plot)
+```  
+
+
+And for the winter: just take the code above and change `data = summer` to `data = winter` and the `title` to "Winter Olympics" and that should be it! (You could also change `summer_plot` to `winter_plot` so the names match reality.)
+
+## More on Team Size
+Did you notice how adding the team size information to the plot was incredibly helpful to help your eye pick out trends?  
+
+You can add this information to any of the previous plots by adding `size = ~team_size` inside the call to `gf_point(...)`, just like we did above.  Go back and see how this improves earlier plots - what new insights do you gain?

@@ -1,0 +1,12 @@
+name: olympics
+title: Olympics
+username: sld33
+account: sld33
+server: rsconnect.calvin.edu
+hostUrl: https://rsconnect.calvin.edu:3939/__api__
+appId: 42
+bundleId: 65
+url: https://rsconnect.calvin.edu:3939/content/42/
+when: 1579665693.94204
+asMultiple: FALSE
+asStatic: FALSE
