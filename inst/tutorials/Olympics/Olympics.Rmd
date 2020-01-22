@@ -97,7 +97,7 @@ winter <- seasonal_data %>%
 ## Norms and Woman Olympians
 Today's reading outlined reasons why norms in much of the Arab world, especially in collectivist societies, often limit women's participation in sport and sporting events.
 
-```{r quiz}
+```{r quiz, echo = FALSE}
 quiz(
   question("In the chapter, Abadeer tells the story of the first two women from Saudi Arabia to participate in the Olympic games. Do you remember the year they competed?
 ",
@@ -137,7 +137,7 @@ glimpse(olympic)
 ## Over Time
 A statement on women in sport at [olympic.org](https://www.olympic.org/women-in-sport/background/statistics) states that "The number of women athletes at the Olympic Games is approaching 50 per cent." How has it changed over time?
 
-Let's view a bar graph showing proportions male and female olympians (variable `Sex`) by `Year`.
+Let's view a bar graph and then an alternative graph showing proportions male and female olympians (variable `Sex`) by `Year`. (The two hints given in the exercise box below create two different graphs.)
 
 First we have to make a new dataset with one row per year, and a column that gives the percent female.
 
@@ -402,7 +402,7 @@ animated <- gf_point(region ~ perc_female,
 
 Very interesting! Can you explain any of the patterns that you see in the animation?
 
-- Why is there so much more variation that there was in the other plot by country?
+- Why is there so much more variation than there was in the other plot by country?
 - Why do the dots keep moving back and forth en masse, switching from low percent women one Olympic Games to high the next?
 
 ## Summer vs Winter?
