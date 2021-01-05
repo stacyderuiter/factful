@@ -555,7 +555,7 @@ Since the code to reorganize the levels is a bit long to do *inside* the plottin
 
 Add the missing levels to the code below, then run it.
 
-```{r, manual-order-boxplots, exercise = TRUE}
+```{r, manual-order-boxplots, eval = FALSE, exercise = TRUE}
 university_teachers <- university_teachers %>%
   mutate(faculty_type = fct_relevel(faculty_type,
                                     "Graduate Student Employees",
