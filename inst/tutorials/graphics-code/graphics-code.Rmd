@@ -561,7 +561,8 @@ university_teachers <- university_teachers %>%
                                     "Graduate Student Employees",
                                     "Part-Time Faculty",
                                     "Full-Time Non-Tenure-Track Faculty",
-                                    ...)
+                                    # add more here
+                                    )
   )
  gf_boxplot(faculty_type ~  percentage, 
            data = university_teachers)
