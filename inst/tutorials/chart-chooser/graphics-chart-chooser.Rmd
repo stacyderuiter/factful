@@ -619,25 +619,25 @@ Ensure the animation emphasizes the story you want to tell, rather than providin
 
 
 ```{r, animated-scatter, message = FALSE}
-if (!file.exists('images/animated-scatter.gif')){
-set.seed(44)
-d <- data.frame(x = runif(2000, 0, 100),
-                g = gl(40, 50))
-d <- d %>%
-  group_by(g) %>%
-  mutate( y = 50 + 
-            as.numeric(g)  * x + 
-            rnorm(n(), 0, 300)) %>%
-  ungroup()
-
-gf_point(y ~ x,
-         data = d) %>%
-  gf_labs(title = 'ANIMATION', x = '', y = '') %>%
-  gf_theme(axis.line = element_line(color = 'black', size = 3)) %>%
-  gf_refine(gganimate::transition_states(g))
-
-anim_save('images/animated-scatter.gif')
-}
+# if (!file.exists('images/animated-scatter.gif')){
+# set.seed(44)
+# d <- data.frame(x = runif(2000, 0, 100),
+#                 g = gl(40, 50))
+# d <- d %>%
+#   group_by(g) %>%
+#   mutate( y = 50 + 
+#             as.numeric(g)  * x + 
+#             rnorm(n(), 0, 300)) %>%
+#   ungroup()
+# 
+# gf_point(y ~ x,
+#          data = d) %>%
+#   gf_labs(title = 'ANIMATION', x = '', y = '') %>%
+#   gf_theme(axis.line = element_line(color = 'black', size = 3)) %>%
+#   gf_refine(gganimate::transition_states(g))
+# 
+# anim_save('images/animated-scatter.gif')
+# }
 
 knitr::include_graphics('https://sldr.netlify.app/data/animated-scatter.gif')
 ```
