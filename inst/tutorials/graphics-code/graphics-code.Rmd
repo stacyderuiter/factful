@@ -1089,8 +1089,9 @@ This works for continuous variables, too, but the color scale used will be conti
 
 ```
 
-```{r, color-map-contin-hint-1}
-gf_point(births ~ date, data = Births1978, ...)
+```{r, color-map-contin-hint-1, eval = FALSE}
+gf_point(births ~ date, data = Births1978, 
+         ...)
 ```
 
 
