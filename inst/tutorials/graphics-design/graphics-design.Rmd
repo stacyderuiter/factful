@@ -15,8 +15,8 @@ tutorial:
 require(tidyverse)
 library(learnr)
 library(submitr)
-library(etude)
-library(gradethis)
+# library(etude)
+# library(gradethis)
 library(ggformula)
 library(gganimate)
 knitr::opts_chunk$set(echo = FALSE,
