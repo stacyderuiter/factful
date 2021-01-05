@@ -2,8 +2,8 @@ Package: factful
 Type: Package
 Title: Tutorials for DCM, Considering the Evidence 
 Version: 0.2.0
-Author: Stacy DeRuiter
-Maintainer: sld33@calvin.edu
+Authors@R: person("Stacy", "DeRuiter", email = "sld33@calvin.edu",
+                  role = c("aut", "cre"))
 Description: Materials (mainly learnr tutorials) for the Calvin University course Developing a Christian Mind: Considering the Evidence (January 2021)
 License: CC BY-NC
 Encoding: UTF-8
