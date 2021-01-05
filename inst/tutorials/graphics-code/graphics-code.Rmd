@@ -272,7 +272,7 @@ goal( formula , data = mydata )
 Put each piece in its place in the template below and then run the code
 to create the plot.
 
-```{r, gf_point, exercise = TRUE}
+```{r, gf_point, eval = FALSE, exercise = TRUE}
 goal(y ~ x, data = mydata)
 ```
 
