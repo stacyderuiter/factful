@@ -22,6 +22,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.width = 4.5, fig.height = 3.5)
 learnr::tutorial_options(
   exercise.timelimit = 200, 
+  exercise.eval = FALSE,
   exercise.checker = #gradethis::grade_learnr) 
       submitr::null_code_checker)
     
@@ -194,7 +195,7 @@ These names can help us remember which things go where.
 Sometimes we will add or subtract a bit from our formula.
 Here are some other forms we will eventually see.
 
-```{r eval=FALSE, echo = TRUE}
+```{r eval = FALSE, echo = TRUE}
 # simpler version
 goal( ~ x, data = mydata )          
 # fancier version
@@ -271,7 +272,7 @@ goal( formula , data = mydata )
 Put each piece in its place in the template below and then run the code
 to create the plot.
 
-```{r, gf_point, echo = TRUE, exercise = TRUE}
+```{r, gf_point, exercise = TRUE}
 goal(y ~ x, data = mydata)
 ```
 
