@@ -1,0 +1,12 @@
+name: installr
+title: InstallR
+username: sld33
+account: sld33
+server: rsconnect.calvin.edu
+hostUrl: https://rsconnect.calvin.edu:3939/__api__
+appId: 93
+bundleId: 193
+url: https://rsconnect.calvin.edu:3939/content/93/
+when: 1598463206.67133
+asMultiple: FALSE
+asStatic: FALSE

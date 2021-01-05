@@ -1,0 +1,381 @@
+---
+title: "Graphics: Design"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+    fig_caption: false
+runtime: shiny_prerendered
+tutorial:
+  id: "graphics-design"
+  version: 0.1
+---
+
+```{r setup, include=FALSE}
+require(tidyverse)
+library(learnr)
+library(submitr)
+library(etude)
+library(gradethis)
+library(ggformula)
+library(gganimate)
+knitr::opts_chunk$set(echo = FALSE,
+                      fig.width = 4.5, fig.height = 3.5)
+learnr::tutorial_options(
+  exercise.timelimit = 200) 
+  # exercise.checker = #gradethis::grade_learnr) 
+  # submitr::null_code_checker)
+
+theme_set(theme_void(base_size = 20))
+
+crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')
+```
+
+```{r}
+# submitr::login_controls()
+```
+
+```{r context = "server", echo = FALSE}
+# bookmarking of progress is disabled, and also previous login credentials not autofilled
+# options(tutorial.storage = "none")
+# vfun <- make_basic_validator('./www/citizens.csv', "rainbow-mask") #basket::check_valid
+# storage_actions <- record_local("./www/graphics-design-submissions.csv")
+# submitr::shiny_logic(input, output, session, vfun,
+#                      storage_actions)
+```
+
+<!--End of submitr setup-->
+
+## Inspiration
+
+> Above all, show the data.
+>
+> E. Tufte, [*The Visual Display of Quantitative Information*](https://www.edwardtufte.com/tufte/books_vdqi)
+
+But...
+
+> The Numbers Don't Speak for Themselves.
+>
+> C. D'Ignazio and L. Klein, [*Data Feminism*](https://data-feminism.mitpress.mit.edu/pub/czq9dfs5/release/2)
+
+In visualizing data, we use graphics to gain and communicate an honest understanding of data in context.
+
+## Motivation: Imagine First!
+Figures are a crucial tool for exploring your data *and* communicating what you learn from the data.
+
+Whether you are doing a quick check to assess basic features of a dataset or creating a key figure for an important presentation, the best practice is to work thoughtfully.
+
+### The **I.C.E.E. method**: 
+
+- **I***magine* how you want your graph to look, *before* you 
+- **C***ode*. Once you have the basic starting point, 
+- **E***valuate* your work, and
+- **E***laborate* (refine it).
+
+Repeat until the figure is as awesome as it needs to be.
+
+**Our DCM course does not require students to learn code to produce figures independently (although of course, you can if you want!). However, you WILL try to learn to think like a data analyst and figure designer, and will critique graphics produced by others often, so this process is still valuable to keep in mind.**
+
+### NO To Mindless Copy/Paste
+
+Too many of us fall into the trap of starting to write code (or copy/pasting it!) *before* pausing to think carefully about the desired outcome, then settling for the first vaguely relevant result (or [delighting in the unintended outcome](https://twitter.com/accidental__art?lang=en)...).
+
+If using someone else's code, as you often will in this course, the equivalent is just running the code you are given without even looking at it, and accepting the results without critique.
+
+You can do better! You *will* do better. This tutorial provides some advice to get you started. It can also provide inspiration for constructive critique of others' graphics. 
+
+Here we focus only on the **I_EE** parts of the process, where you design and assess graphics. Code will (maybe) come later, in another optional tutorial.
+
+Specifically, how *exactly* should a graphic look? There are so many choices: color, size, text and more. What are best practices for creating something beautiful, that represents the data honestly, and is easy to understand?
+
+This tutorial will provide some rules of thumb to help you **Evaluate** statistical graphics. It will also teach you to spot common problems and suggest ways to fix them, allowing you to provide constructive critique (to yourself or to others!) about how to **Elaborate** and refine data visualizations.
+
+### You still have your freedom!
+As you digest all these rules and tips, you may wonder: "Do I *have* to always obey every one?" Well...No, of course not. Be creative! 
+
+Sometimes it's OK to break these rules *when you have thought it through* and *with a good justification*.  A good justification means that in your particular case, breaking a certain rule will make your graph more informative, easier to understand, or better at telling the story you're highlighting.
+
+## Learning Objectives
+
+This tutorial will give you some basic tools to:
+
+1. **Graph data with integrity**, avoiding misleading design choices
+2. **Tell the right story**, including elements that *emphasize your main finding* and make your figure *easy to interpret at a glance*
+
+
+## Bye, Junk!
+Our first principle is: if it doesn't *need* to be in your graph, it shouldn't be there.  Keep things as simple as possible.  What are some justifications for a *need* to include an element in a plot?
+
+- It is crucial to the story you are telling, or the question you are answering. 
+- It emphasizes your main point. For example, some plots may not need color, and in others it may add crucial visual contrast to highlight a main point.
+- It makes the graph easier to read and understand
+- It makes the main message of the graph more memorable
+
+If you need it, include it, but if not, keep it simple!
+
+Imagine you are using *very* expensive ink to print every element of the graph. Is every drop of in you're using really worth it? If not, take it out. As influential data visualization thinker Edward Tufte put it in [*The Visual Display of Quantitative Information*](https://www.edwardtufte.com/tufte/books_vdqi),
+
+> A large share of ink on a graphic should present data-information, the ink changing as the data change. Data-ink is the non-erasable core of a graphic...
+
+In other words, don't let annotations, labels, grids, etc. overwhelm the visual impact of your data:
+
+![cartoon about data-ink ratio showing what not to do](https://freshspectrum.com/wp-content/uploads/2015/07/Data-ink-1024x768.png){ width=400px}
+
+*Cartoon source: <https://freshspectrum.com/data-ink-ratio/>*
+
+### Check: Critique the Pie
+
+The figure below, from [a *Forbes* article on mobile operating system crashes](https://www.forbes.com/sites/tomiogeron/2012/02/02/does-ios-crash-more-than-android-a-data-dive/#4997f14d5385), **is pretty awful**.
+
+![terrible pie chart from Forbes](https://thumbor.forbes.com/thumbor/576x0/https%3A%2F%2Fblogs-images.forbes.com%2Ftomiogeron%2Ffiles%2F2012%2F02%2Fcrashes-ios-android-1.jpg)
+```{r message-of-bad-pie, echo=FALSE}
+learnr::question("What is one main conclusion from the graph above? (It's pretty confusing to interpret, so you may have to study carefully to find something.)",
+         type = 'learnr_text',
+         answer(' ', correct = TRUE),
+         incorrect = 'Well done if you were able to come up with a clear conclusion!',
+         allow_retry = TRUE,
+         try_again_button = 'Edit Your Answer'
+)
+```
+
+```{r junk-in-bad-pie, echo=FALSE}
+learnr::question("Now that you have identified one main conclusion from the graph, what is one element of the plot that obscures that conclusion, is NOT necessary, and could be removed to improve the plot? Answer constructively - as if the person who made the plot was incredibly smart and someone you admire, and to whom you wanted to be kind but helpful.",
+         type = 'learnr_text',
+         answer(' ', correct = TRUE),
+         incorrect = 'All right! Hopefully, that was some good practice offering constructive critique.',
+         allow_retry = TRUE,
+         try_again_button = 'Edit Your Answer'
+)  
+```
+
+
+## Proportional Ink and Axis Scales
+For bar graphs and other filled-area plots, the **area** of a graphic element should correspond to the proportion of the data it represents.
+
+This principle might be violated if the lower limit of a count/frequency axis is not 0. If you're showing the number or proportion or percentage of observations in categories, it's usually best to set the lower limit of the axis to 0.
+
+If you don't start at 0, make sure the "at a glance" interpretation of your figure is not misleading!
+
+A similar principle applies for plots of quantitative variables *if they use filled areas to represent numeric values* and *there is some value (zero or another threshold value) that is an important reference point.*
+
+For optional additional detail on choosing honest axis limits and more examples, check out the blog post by the excellent but (sorry) profanely named [Calling B*** project](https://www.callingbullshit.org/tools/tools_misleading_axes.html).
+
+An example from [Chapter 17 of C. Wilke's *Fundamentals of Data Visualization](https://clauswilke.com/dataviz/proportional-ink.html) shows the "Stock price of Facebook (FB) from Oct. 22, 2016 to Jan. 21, 2017":
+
+![](https://clauswilke.com/dataviz/proportional_ink_files/figure-html/fb-stock-drop-bad-1.png){width=400px}
+```{r problem-with-facebook-chart}
+quiz(question("Why is the Facebook figure above 'bad'?",
+              type = 'learnr_radio',
+              answer('The graph suggests that Facebook stock value dropped dramatically around November 1, 2016. But it actually only lost about 10% of its value.', correct = TRUE,
+                     message = 'Yes. In this case, it would be less misleading to use a y axis ranging from 0 to 135 instead of 110 to 135.'),
+              answer('The grey area should be plain white, not colored in.',
+                     message = 'A line chart could also be used here (without filling in the grey area), but using the color emphasizes the values rather than the trend over time.'),
+              answer('The stock price values appear too jagged and should be smoothed out.',
+                     message = 'We can not just change data values to make them look how we like. If we wanted to emphasize the smoothed trend over time, we could show the smoothed curve atop a scatter plot of the original data points, which would present the desired message without altering the data. If we did average over time before plotting, it should be clearly noted (for example, "Weekly average Facebook stock prices..."'),
+              answer('There are some stock price values that appear to be outliers and should be removed.',
+                     message = 'No. Even if there are outliers (there are not extreme ones here), it is only acceptable to exclude them from analysis if you can verify that they are errors.'),
+              random_answer_order = TRUE,
+              allow_retry = TRUE
+              )
+     )
+```
+
+Consider two ways to try to "fix" the figure (again from [Wilke](https://clauswilke.com/dataviz/proportional-ink.html)).
+
+#### A.
+![](https://clauswilke.com/dataviz/proportional_ink_files/figure-html/fb-stock-drop-good-1.png){width=400px}
+
+#### B.
+![](https://clauswilke.com/dataviz/proportional_ink_files/figure-html/fb-stock-drop-inverse-1.png){width=400px}
+```{r fix-for-facebook-chart}
+quiz(question("Which of the figures above solves the proportional-ink problem with the Facebook stock price plot?",
+              type = 'learnr_radio',
+              answer('A', correct = TRUE,
+                     message = 'Yes; A accurately shows the reduction in stock price as a proportion of the initial price. But what about B? Some would say B accurately shows the amount of value lost (and then regained) over time. Others would argue that it is as bad as the original, for similar reasons - the graph shows the <i>absolute</i> lost value, not the proportion lost value. So B may be OK or bad depending on your perspective.'),
+              answer('B',
+                     message = 'Yes; or, No. Some would say B accurately shows the amount of value lost (and then regained) over time. Others would argue that it is as bad as the original, for similar reasons - the graph shows the <i>absolute</i> lost value, not the proportion lost value. So B may be OK or bad depending on your perspective. But what about A?'),
+              answer('Both A and B', correct = TRUE,
+                     message = 'Yes for A! For B, maybe. A accurately shows the reduction in stock price as a proportion of the initial price. B accurately shows the absolute amount of value lost (and then regained) over time, but <i>does not</i> accurately show the proportion of stock value lost and regained. Neither technically violates the proportional ink principle.'),
+              answer('Neither A nor B',
+                     message = 'No, think again - one or both of the plots *does* fix the problem.'),
+              allow_retry = TRUE
+              )
+     )
+```
+
+
+### Counts or Proportions or Percentages?
+- For categorical data, should you show the Count in each category, or the Frequency (proportion or percent)? It depends!
+  - When you want to compare by category across groups, and the total number in each group varies, frequency works well
+  - If representing differences in sample size between groups is crucial, counts work better
+
+## Grids and Boxes 
+
+Should your graphics include boxes, axis lines, and grid lines?
+
+Well, it depends...
+
+- Removing unnecessary axes, grids, and labels yields a cleaner plot that may be easier to take in at a glance -- there is less to distract from the main story
+- **But...** omitting needed baselines, tick marks, gridlines, and labels can cause confusion and make it hard to identify categories or estimate numeric values
+- Scientific graphics usually need axis lines, with tick marks
+- If a viewer will need to refer to an axis to estimate heights of bars or locations of points, then consider using gridlines for that axis. 
+- Instead of an entire grid, it may be more effective to include single lines indicating important threshold values 
+- Consider using a color that nearly blends into the background for grid lines, so that they detract as little attention as possible from the data
+
+### Example
+[Storytelling with Data](http://www.storytellingwithdata.com/blog/2011/07/gridlines-are-gratuitous) provide an example of a cluttered figure where the trend over time pops out more as unnecessary grids and boxes are made less visible, then removed:
+
+![](https://images.squarespace-cdn.com/content/v1/55b6a6dce4b089e11621d3ed/1438044611950-YY4YYAYAY1O95P8VGJ8G/ke17ZwdGBToddI8pDm48kDa6fENzg3THuPXOjlBueplZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7Xj1nVWs2aaTtWBneO2WM-s7QUvVpCKf9Q5vGl5-jKOjePt_rSAREIxGXEmq0OLmZA/image-asset.jpeg?format=300w){width=300px}
+
+
+Optionally, if you'd like more examples, read [S. Few's 3.5-page article on when grid lines are helpful.](http://www.perceptualedge.com/articles/dmreview/grid_lines.pdf)
+
+## Text Elements: Titles, Labels, Size
+
+When using text in a figure, ensure it is easy to read. Make sure no unneccessary text is included.
+
+- Default size of text in figures produced by statistical software *is almost always too small*. Make sure your text is *big enough to be easily legible in the context where you will present it* (on the page in a report, on a slide for a presentation, etc.)
+- Other than the title of the vertical (y) axis, all the text in a plot should be horizontal. This makes it easier to read.
+- Axis labels should be self-explanatory
+  - Viewers should be able to guess what they mean accurately without looking at anything but the figure
+  - Use words instead of numeric codes or cryptic abbreviations
+- Axis labels should also be as short as possible while remaining easy to understand
+- Every plot should have a title. Sometimes this might be a literal title at the top of the graph, but those are relatively rare. More often in scientific work, a text caption appears below the figure. The first phrase/sentence of the caption acts as the figure's title
+
+Remember the melanoma rates over time figure from the last section?
+
+![](https://images.squarespace-cdn.com/content/v1/55b6a6dce4b089e11621d3ed/1438044611950-YY4YYAYAY1O95P8VGJ8G/ke17ZwdGBToddI8pDm48kDa6fENzg3THuPXOjlBueplZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7Xj1nVWs2aaTtWBneO2WM-s7QUvVpCKf9Q5vGl5-jKOjePt_rSAREIxGXEmq0OLmZA/image-asset.jpeg?format=300w){width=300px}
+
+```{r melanoma-text-labels}
+quiz(question("What helpful change did Storytelling with Data make to the text labels as they improved the figure?",
+              type = 'learnr_checkbox',
+              answer('The x axis labels are rotated so they are horizonal.', correct = TRUE,
+                     message = 'Yes, rotating the axis labels helped. To make this happen, the number of tick marks and labels on the x axis was also reduced. Notice the labels are much easier to read.'),
+              answer('The title color is changed to blue and the axis labels to grey.', correct = TRUE,
+                     message = 'The color changes helped too. The blue links the title with the trend it describes, and the grey makes the axis titles less prominent and lets the viewer focus on the data. Continue to the next section for more on using color...'),
+              answer('The box around the plot is removed', 
+                     message = 'The box is gone, and it is a big improvement to the plot! But technically, you were asked about changes to the text labels...'),
+              allow_retry = TRUE,
+              random_answer_order = TRUE
+              )
+     )
+```
+
+## Using Color
+Color - used sparingly - can be an incredibly effective part of a data visualization.
+
+- Ensure your color choices highlight the story you want to tell
+  - Consider using black and grey to help some elements fade into the background - for example, grid lines and labels that must be present but aren't the most important elements
+- Choose color combinations that look good and are distinguishable by color-blind viewers and in greyscale
+  - Default to using pre-defined color palettes provided by your software rather than choosing colors manually
+  - Consider being redundant - use size and/or shape as well as color to indicate groups.
+- Use color consistently. Example: if "young" cases are red in one graph, don't use red for "old" in the next graph
+
+The video below, from Storytelling with Data, gives explanations and examples. 
+
+- If you have time, watch from 11:48 to 28:41 (about 17 minutes). This segment will play automatically in the clip below.
+- If you're in a rush, the most important sections (about 10 minutes) are: 
+  - 13:57 - 15:12 (Sparing use of color)
+  - 18:44 - 21:25; see also the [infographic of color in culture](https://www.informationisbeautiful.net/visualizations/colours-in-cultures/)
+  - 22:25 - 23:10 (Color blindness - to view your graphs as someone with color blindness would, take a screen shot and try the [simulator online](https://www.color-blindness.com/coblis-color-blindness-simulator/)
+  - 23:50 - 28:41 (Consistency)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AiD6etOB6qI?start=708&end=1721" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+```{r color-tips}
+question("Which of the following are lessons from the Storytelling with Data video on Being Clever with Color? Choose all correct answers.",
+              type = 'learnr_checkbox',
+              answer('Color grabs attention', correct = TRUE,
+                     message = 'The human eye is naturally drawn to colors.<br>'),
+              answer('Color signals where to look.', correct = TRUE,
+                     message = 'Since color grabs attention, we expect it to direct us toward the most important stuff that is worthy of our attention.<br>'),
+              answer('Color should be used sparingly', correct = TRUE,
+                     message = 'Too much color, and everything is highlighted - the viewer does not know what to pay attention to.<br>'),
+              answer('Color can show quantitative values, too, not just categories', correct = TRUE), 
+              answer('Colors have tone and meaning', correct = TRUE,
+                     message = 'Remember that the meaning and interpretation of colors varies by culture.<br>'),
+              answer('Not everyone can see colors', correct = TRUE,
+                     message = 'Since some people can not see color, use color-blind friendly palettes and redundant coding (shape, text) where possible without cluttering the figure.<br>' ),
+              answer('Use color consistently', correct = TRUE,
+                     message = 'Inconsistent use of color is confusing and distracting.'),
+              answer('Simple black and white is always the best choice.<br>', 
+                     message = 'Sometimes black and white is great - but often color helps you tell a story!<br>'),
+             try_again = 'At least one of your answers was incorrect. Actually, ALL of the above (except "Black and white is always best") were lessons covered in the video.',
+             correct = 'You got them all!',
+              allow_retry = TRUE,
+              random_answer_order = TRUE
+              )
+```
+
+
+## When Things Overlap
+
+Especially when graphing variables with long category values, you may end up with ugly, illegible overlapping labels. Two easy solutions, in order of preference, are to switch x and y coordinates so the "long" labels are on the y axis (in R, this resizes the plot area so that labels fit); or, to rotate the too-long labels, which eliminates the overlap but makes them harder to read than horizontal text.
+
+
+Sometimes a title or axis label is too long and runs off the edge of the figure. Using a smaller font is *not* often an ideal solution. If you can't just use a shorter label, consider adding line breaks.
+
+```{r, bad-labels, fig.width = 4}
+theme_set(theme_minimal(base_size = 20))
+gf_boxplot(NEnrollment ~ Location, data = crime) %>%
+  gf_labs(title = 'WORSE LABELS') %>%
+  gf_theme(title = element_text(color = 'darkred'),
+           axis.title = element_text(color = 'black'))
+```
+
+
+```{r, better-labels, fig.width = 4}
+
+gf_boxplot(NEnrollment/1000 ~ Location, data = crime) %>%
+  gf_labs(title = 'BETTER',
+          y = 'Enrollment\n (1000s)', x= '') %>%
+  gf_refine(coord_flip()) %>%
+  gf_theme(title = element_text(color = 'deepskyblue4'),
+           axis.title = element_text(color = 'black'))
+```
+
+
+## Critique Practice
+
+Try using what you have learned to provide a constructive critique of an example.
+
+Consider the graphic below. At a glance, what do you think it means?  Looking more carefully, what do you notice? 
+
+![](https://www.callingbullshit.org/tools/img/stand_your_ground.png){width=300px}
+
+```{r gun-reflection, echo=FALSE}
+learnr::question("What changes, if any, would you suggest to the figure's creator to make it clearer and easier to understand? Be sure to be constructive - gently explain any problems and suggest solutions.",
+         type = 'learnr_text',
+         answer(' ', correct = TRUE),
+         incorrect = 'Thank you for your submission!',
+         allow_retry = TRUE,
+         try_again_button = 'Edit Your Answer'
+)  
+
+```
+
+  
+## Video Review
+Wow, that was quite a lot of information! If you could use a brief review from a different point of view, check out the **optional** [video from Kristen Sosulski](https://www.youtube.com/watch?v=m9AhRIh49eU):
+
+![](https://www.youtube.com/watch?v=m9AhRIh49eU)
+
+## Recap & Reflect: 12 Tips
+The 4-minute video below summarizes design principles for data visualization in the form of 12 tips.
+
+As you watch, make note of one or two tips that strike you (you'll report your thoughts in the next section). Is there one that nicely summarizes an idea introduced earlier in the tutorial? One you're not sure about? One that you think is incredibly important? One that makes you say "Aha! *Now* I see why I loved/hated that visualization!"
+
+<iframe title="vimeo-player" src="https://player.vimeo.com/video/185421073" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+
+## Reflection
+
+```{r graphics-design-reflection, echo=FALSE}
+learnr::question("You've nearly completed the graphics design tutorial! To finish up, write a brief reflection on what you learned. Use the 12 Tips video you just watched as inspiration. List a Tip that you remember most clearly, think is most important, or want to challenge. Then reflect on it. Example questions (you don't have to answer them all): How do you think you will use it in this class? Can you think of an example of a visualization that was excellent (or awful), and explain it using the Tip you chose? What are your questions about how to apply the Tip?",
+         type = 'learnr_text',
+         answer(' ', correct = TRUE),
+         incorrect = 'Thank you for your submission!',
+         allow_retry = TRUE,
+         try_again_button = 'Edit Your Answer'
+)
+```
+

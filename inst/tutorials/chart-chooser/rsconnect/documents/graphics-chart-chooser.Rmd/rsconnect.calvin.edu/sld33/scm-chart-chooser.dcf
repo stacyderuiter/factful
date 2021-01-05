@@ -1,0 +1,12 @@
+name: scm-chart-chooser
+title: scm-chart-chooser
+username: sld33
+account: sld33
+server: rsconnect.calvin.edu
+hostUrl: https://rsconnect.calvin.edu:3939/__api__
+appId: 129
+bundleId: 345
+url: https://rsconnect.calvin.edu:3939/content/129/
+when: 1609881172.71969
+asMultiple: FALSE
+asStatic: FALSE

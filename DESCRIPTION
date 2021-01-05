@@ -1,11 +1,10 @@
 Package: factful
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Tutorials for DCM, Considering the Evidence 
+Version: 0.2.0
+Author: Stacy DeRuiter
+Maintainer: sld33@calvin.edu
+Description: Materials (mainly learnr tutorials) for the Calvin University course Developing a Christian Mind: Considering the Evidence (January 2021)
+License: CC BY-NC
 Encoding: UTF-8
 LazyData: true

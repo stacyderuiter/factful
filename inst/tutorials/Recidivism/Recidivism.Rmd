@@ -149,7 +149,8 @@ recid_age <- recid %>%
   ungroup()
 
 gf_point(prop_recid ~ age_group, data = recid_age,
-         size = ~number) %>% gf_theme(axis.text.x=element_text(angle=65, hjust=1))
+         size = ~number) %>% 
+  gf_theme(axis.text.x = element_text(angle = 65, hjust = 1))
 
 
 ```
@@ -186,11 +187,11 @@ gf_bar(~two_year_recid, fill = ~race,
 Again, what things do you find frustrating about this plot? (There are several!)
 
 ### Race and Sex, again
-Another way you may want to look at the data is below (code is shown but not as an exercise for you to run, since making this plot is tough in R).
+Another way you may want to look at the data is below.
 
 This lets us look at both race and sex together and solves at least some of the issues with interpretation and ease of reading from the previous plots.
 
-```{r, echo = TRUE}
+```{r, race-plus-sex-together, exercise = TRUE}
 recid_sex <- recid %>%
   group_by(sex, race) %>%
   summarize(Yes = sum(two_year_recid == 'Yes') / n(),
@@ -269,11 +270,11 @@ They used this data to test out several different ways of making predictions lik
 
 - They asked people to consider "a short description of a defendant that included the defendant’s sex, age, and previous criminal history, but not their race" and predict whether they would recidivate
 - Same as above, but with race
-- They fitted a simple statistical model to predict recidivism based on 7 features (age, sex, race, juvenile and adult prior convictions, and whether current prosection was for felony or misdemeanor)
+- They fitted a simple statistical model to predict recidivism based on 7 features (age, sex, race, juvenile and adult prior convictions, and whether current prosecution was for felony or misdemeanor)
 - Same as above, but a fancier model
 - Same as simple model above, but using only age and total number of prior convictions as predictors
 
-They present the results in [Table 2 of their paper](https://advances.sciencemag.org/content/4/1/eaao5580#T2). Check it out -- what do you conclude?
+They present the results in [Table 2 of their paper](https://advances.sciencemag.org/content/4/1/eaao5580#T2). Check it out -- what do you conclude?  Would *you* trust a model that works this way for use in the criminal justice system, to help determine peoples' futures?
 
 ### COMPAS by sex
 Is COMPAS equally accurate for people of different sexes?
