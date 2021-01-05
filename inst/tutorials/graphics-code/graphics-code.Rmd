@@ -22,7 +22,6 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.width = 4.5, fig.height = 3.5)
 learnr::tutorial_options(
   exercise.timelimit = 200, 
-  exercise.eval = FALSE,
   exercise.checker = #gradethis::grade_learnr) 
       submitr::null_code_checker)
     
@@ -771,17 +770,17 @@ above, we might pick `x`, so that the total proportion in each T.V. hours group 
 gf_props( ~ TVHrsDay, fill = ~ Marijuana, data = NHANES)
 ```
 
-```{r, eval = FALSE, change-denom-hint-1}
+```{r, change-denom-hint-1, eval = FALSE}
 gf_props( ~ TVHrsDay, fill = ~ Marijuana, data = NHANES,
           denom = ...)
 ```
 
-```{r, eval = FALSE, change-denom-hint-2}
+```{r, change-denom-hint-2, eval = FALSE}
 gf_props( ~ TVHrsDay, fill = ~ Marijuana, data = NHANES,
           denom = ~...)
 ```
 
-```{r, eval = FALSE, change-denom-hint-3}
+```{r, change-denom-hint-3, eval = FALSE}
 gf_props( ~ TVHrsDay, fill = ~ Marijuana, data = NHANES,
           denom = ~ x)
 ```
@@ -889,18 +888,18 @@ The dataset at <http://sldr.netlify.app/data/MammalMetabolicRates.csv> provides 
 mmr <- read_csv('http://sldr.netlify.app/data/MammalMetabolicRates.csv')
 ```
 
-```{r mmr-hint-2}
+```{r mmr-hint-2, eval = FALSE}
 mmr <- read_csv('http://sldr.netlify.app/data/MammalMetabolicRates.csv')
 gf_bar(_____, data = _____)
 ```
 
-```{r mmr-hint-3}
+```{r mmr-hint-3, eval = FALSE}
 mmr <- read_csv('http://sldr.netlify.app/data/MammalMetabolicRates.csv')
 gf_bar(_____, data = mmr)
 ```
 
 
-```{r mmr-hint-4}
+```{r mmr-hint-4, eval = FALSE}
 mmr <- read_csv('http://sldr.netlify.app/data/MammalMetabolicRates.csv')
 gf_bar(~ ____, data = mmr)
 ```
@@ -949,7 +948,7 @@ With tabulated data, a Cleveland dot plot is just a scatter plot. But we need to
 gf_point(Order ~ n, data = mmr_tab)
 ```
 
-```{r cleveland-dot-hint-1}
+```{r cleveland-dot-hint-1, eval = FALSE}
 gf_point(fct_reorder(___, ___) ~ n, data = mmr_tab)
 ```
 
@@ -1095,7 +1094,7 @@ gf_point(births ~ date, data = Births1978, ...)
 ```
 
 
-```{r, color-map-contin-hint-2}
+```{r, color-map-contin-hint-2, eval = FALSE}
 gf_point(births ~ date, data = Births1978, color = _______)
 ```
 
