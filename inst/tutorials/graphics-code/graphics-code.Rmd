@@ -771,17 +771,17 @@ above, we might pick `x`, so that the total proportion in each T.V. hours group 
 gf_props( ~ TVHrsDay, fill = ~ Marijuana, data = NHANES)
 ```
 
-```{r, change-denom-hint-1}
+```{r, eval = FALSE, change-denom-hint-1}
 gf_props( ~ TVHrsDay, fill = ~ Marijuana, data = NHANES,
           denom = ...)
 ```
 
-```{r, change-denom-hint-2}
+```{r, eval = FALSE, change-denom-hint-2}
 gf_props( ~ TVHrsDay, fill = ~ Marijuana, data = NHANES,
           denom = ~...)
 ```
 
-```{r, change-denom-hint-3}
+```{r, eval = FALSE, change-denom-hint-3}
 gf_props( ~ TVHrsDay, fill = ~ Marijuana, data = NHANES,
           denom = ~ x)
 ```
