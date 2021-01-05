@@ -12,9 +12,9 @@ tutorial:
 
 ```{r setup, include=FALSE}
 require(learnr)
-require(submitr)
-require(etude)
-require(gradethis)
+# require(submitr)
+# require(etude)
+# require(gradethis)
 # require(checkr)
 # require(statPREP)
 require(tidyverse)
