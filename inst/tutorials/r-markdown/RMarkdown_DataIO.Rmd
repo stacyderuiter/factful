@@ -107,7 +107,7 @@ Keep your Rmd files stand-alone! (You have no choice, actually...)
 In RStudio, navigate to File -> New File -> R Markdown..., or click on the white rectangle with a green + :
 
 ```{r, fig.align='center', out.width="85%", echo=FALSE}
-knitr::include_graphics(path="./images/NewRmdFile.jpg")
+knitr::include_graphics(path="https://sldr.netlify.app/data/NewRmdFile.jpg")
 ```
 
 and select R Markdown from the drop-down menu.
@@ -119,7 +119,7 @@ and select R Markdown from the drop-down menu.
 - In case you don't see this option available, you can also select the "mosaic fancy" (which includes lots of examples to show you what Rmd can do) or "mosaic plain" (less boilerplate content) template.
 
 ```{r, fig.align='center', out.width="85%", echo=FALSE}
-knitr::include_graphics(path="./images/MosaicFancy.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/MosaicFancy.png")
 ```
 
 ### Saving Rmd files
@@ -131,7 +131,7 @@ knitr::include_graphics(path="./images/MosaicFancy.png")
 - All your files will be accessible in the RStudio *Files* tab (lower right panel) whenever you log into RStudio, regardless of which computer you are using. 
 
 ```{r, fig.align='center', out.width="85%", echo=FALSE}
-knitr::include_graphics(path="./images/FileTab.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/FileTab.png")
 ```
 
 ```{r filename-quiz, echo = FALSE}
@@ -152,7 +152,7 @@ You will have to download your files if you want a copy on your own computer, or
 
  
 ```{r, fig.align='center', out.width="85%", echo=FALSE}
-knitr::include_graphics(path="./images/Export.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/Export.png")
 ```
 
 ```{r export-quiz, echo = FALSE}
@@ -170,7 +170,7 @@ How do Rmd files actually work?  What's so cool about them?
 Click on the *small black arrow* next to the word "Knit" (and the ball of yarn icon) at the top of the file window. Select "Knit to PDF".  Check out the compiled PDF result, and compare it to the original markdown file. Wow! (Magic, right?)
 
 ```{r, fig.align='center', out.width="85%", echo=FALSE}
-knitr::include_graphics(path="./images/KnitButton.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/KnitButton.png")
 ```
    
 ## Header: Title, Author, Date
@@ -179,7 +179,7 @@ At the top of the markdown file, enter an appropriate title, author(s), and date
 Make sure you do this for every assignment! (Nobody likes getting homework from "A. Student" or "Your Name Here"...)
 
 ```{r, fig.align='center', out.width="85%", echo=FALSE}
-knitr::include_graphics(path="./images/Title.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/Title.png")
 ```
 
 ## Rmd file anatomy
@@ -200,7 +200,7 @@ becomes
 (a small section header).  Fewer hashtags make the text even larger, and more make it smaller.
 
 ```{r, echo = FALSE, out.width = '80%'}
-knitr::include_graphics('./images/rmd-cheat.png')
+knitr::include_graphics('https://sldr.netlify.app/data/rmd-cheat.png')
 ```
 
 - You can get a detailed R Markdown cheat sheet within RStudio by going to **Help > Cheatsheets > R Markdown Cheat Sheet** (at the very top of your screen).
@@ -219,7 +219,7 @@ and ends with
 like so: 
 
 ```{r, fig.align='center', out.width="85%", echo=FALSE}
-knitr::include_graphics(path="./images/CodeChunk.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/CodeChunk.png")
 ```
 
 ### Adding a New Code Chunk
@@ -232,7 +232,7 @@ To add a code chunk to your file, you have options.
 When you click the **Knit** button, all the code in your code chunks will be run in R. A document will be generated that includes both text content as well as the output of any embedded R code chunks within the document.
 
 ```{r, fig.align='center', out.width="85%", echo=FALSE}
-knitr::include_graphics(path="./images/InsertCodeChunk.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/InsertCodeChunk.png")
 ```
    
 ## Setup Chunk and Options
@@ -256,7 +256,7 @@ does almost the same thing.
 For example, we might want to use the `s245` package. So, verify that the first R code chunk in your file includes the line `library(s245)` or `require(s245)` (either one works). 
 
 ```{r, fig.align='center', out.width="85%", echo=FALSE}
-knitr::include_graphics(path="./images/SettingsChunk.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/SettingsChunk.png")
 ```
 
 ### The settings chunk is invisible!
@@ -295,7 +295,7 @@ You can also use shortcuts/buttons to run specific chunk(s). Here is one way to 
   Use the *Run* pulldown menu at the top of the markdown file. (Choose the option you want based on what you are trying to do).
   
 ```{r, fig.align='center', out.width="85%", echo=FALSE}
-knitr::include_graphics(path="./images/RunMenu.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/RunMenu.png")
 ```   
    
   
@@ -304,7 +304,7 @@ Here is another way to use shortcuts/buttons to run only a specific chunk (optio
     Click on the green arrow at the upper right of a code chunk to run the chunk.
     
 ```{r, fig.align='center', out.width="85%", echo=FALSE}
-knitr::include_graphics(path="./images/RunButton.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/RunButton.png")
 ```
 
 ### Keyboard Shortcuts
@@ -359,19 +359,19 @@ First, go to the Google Sheet online to prepare it by "publishing it online".
 In the **File** menu, choose "Publish to the Web":
 
 ```{r, echo=FALSE, out.width = '500px'}
-knitr::include_graphics(path="./images/publish-to-web.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/publish-to-web.png")
 ```
 
 In the pop-up window, choose to publish your "Entire Document" as a .csv file:
 
 ```{r, echo=FALSE, out.width = '500px'}
-knitr::include_graphics(path="./images/publish-as-csv.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/publish-as-csv.png")
 ```
 
 Finally, copy the resulting link. 
 
 ```{r, echo=FALSE, out.width = '500px'}
-knitr::include_graphics(path="./images/get-link.png")
+knitr::include_graphics(path="https://sldr.netlify.app/data/get-link.png")
 ```
 
 You can use `read_csv()` with this link as input to read your data into R.

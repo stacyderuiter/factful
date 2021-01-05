@@ -28,6 +28,7 @@ learnr::tutorial_options(
 theme_set(theme_void(base_size = 20))
 
 crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')
+pkg_path <- system.file(package = 'factful')
 ```
 
 <!-- ```{r} -->
@@ -43,7 +44,7 @@ crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')
 <!--                      storage_actions) -->
 <!-- ``` -->
 
-<!-- <!--End of submitr setup--> -->
+<!-- <!--End of submitr setup--> 
 
 
 
@@ -618,7 +619,7 @@ Ensure the animation emphasizes the story you want to tell, rather than providin
 
 
 ```{r, animated-scatter, message = FALSE}
-if (!file.exists('./images/animated-scatter.gif')){
+if (!file.exists('images/animated-scatter.gif')){
 set.seed(44)
 d <- data.frame(x = runif(2000, 0, 100),
                 g = gl(40, 50))
@@ -635,10 +636,10 @@ gf_point(y ~ x,
   gf_theme(axis.line = element_line(color = 'black', size = 3)) %>%
   gf_refine(gganimate::transition_states(g))
 
-anim_save('./images/animated-scatter.gif')
+anim_save('images/animated-scatter.gif')
 }
 
-knitr::include_graphics('./images/animated-scatter.gif')
+knitr::include_graphics('https://sldr.netlify.app/data/animated-scatter.gif')
 ```
 
 
@@ -658,7 +659,12 @@ learnr::question("If you wanted to show how weight depends on length for cats ve
                  )
 ```
 
-![Map of new coronavirus cases over time in US states from Johns Hopkins](./images/jhu-covid.png)
+<!-- ![Map of new coronavirus cases over time in US states from Johns Hopkins](https://sldr.netlify.app/data/jhu-covid.png) -->
+
+```{r, echo = FALSE}
+knitr::include_graphics('https://sldr.netlify.app/data/jhu-covid.png')
+```
+
 *Chart from: <https://coronavirus.jhu.edu/data/new-cases-50-states> on August 25, 2020*
 
 ```{r jhu-covid-multiples}

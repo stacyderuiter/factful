@@ -128,7 +128,6 @@ $(document).ready(function () {
 <!--                      storage_actions) -->
 <!-- ``` -->
 <!-- <!--End of submitr setup-->
-<p>–&gt;</p>
 <div id="section-motivation-imagine-first" class="section level2">
 <h2>Motivation: Imagine First!</h2>
 <p>Figures are a crucial tool for exploring your data <em>and</em> communicating what you learn from the data.</p>
@@ -488,7 +487,7 @@ $(document).ready(function () {
 <h2>Animation</h2>
 <p>For presentation and web graphics (but not printed material), animation can be used to show how a trend changes over time (or as some other third variable changes).</p>
 <p>Ensure the animation emphasizes the story you want to tell, rather than providing a flashy distraction from it.</p>
-<p><img src="images/animated-scatter.gif" /><!-- --></p>
+<p><img src="https://sldr.netlify.app/data/animated-scatter.gif" /><!-- --></p>
 <div id="section-check-your-understanding-multi-variable-plots" class="section level3">
 <h3>Check Your Understanding: Multi-variable plots</h3>
 <div class="panel panel-default">
@@ -499,7 +498,9 @@ $(document).ready(function () {
 <script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
 </div>
 </div>
-<p><img src="images/jhu-covid.png" alt="Map of new coronavirus cases over time in US states from Johns Hopkins" /> <em>Chart from: <a href="https://coronavirus.jhu.edu/data/new-cases-50-states" class="uri">https://coronavirus.jhu.edu/data/new-cases-50-states</a> on August 25, 2020</em></p>
+<!-- ![Map of new coronavirus cases over time in US states from Johns Hopkins](https://sldr.netlify.app/data/jhu-covid.png) -->
+<p><img src="https://sldr.netlify.app/data/jhu-covid.png" /><!-- --></p>
+<p><em>Chart from: <a href="https://coronavirus.jhu.edu/data/new-cases-50-states" class="uri">https://coronavirus.jhu.edu/data/new-cases-50-states</a> on August 25, 2020</em></p>
 <p><div class="panel-heading tutorial-quiz-title">Quiz</div><div class="panel panel-default">
 <div data-label="jhu-covid-multiples-1" class="tutorial-question panel-body">
 <div id="jhu-covid-multiples-1-answer_container" class="shiny-html-output"></div>
@@ -538,7 +539,7 @@ $(document).ready(function () {
 </div>
 <div id="section-section-17" class="section level3">
 <h3>.</h3>
-<p><img src="graphics-chart-chooser_files/figure-html/unnamed-chunk-9-1.png" width="432" /></p>
+<p><img src="graphics-chart-chooser_files/figure-html/unnamed-chunk-10-1.png" width="432" /></p>
 <ul>
 <li>Often it is possible to simulate the process that generated the data being plotted, including uncertainty.</li>
 <li>An alternative to confidence bars/bands is to generate many simulated replicates (here, grey; color should fade into the background) and plot them along with the original (here, black; color should pop out).</li>
@@ -597,6 +598,7 @@ learnr::tutorial_options(
 theme_set(theme_void(base_size = 20))
 
 crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')
+pkg_path <- system.file(package = 'factful')
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
@@ -620,8 +622,8 @@ learnr:::store_exercise_setup_chunk("__setup__", c("require(tidyverse)", "librar
 "                      fig.width = 4.5, fig.height = 3.5)", "learnr::tutorial_options(", 
 "  exercise.timelimit = 200, ", "  exercise.checker = #gradethis::grade_learnr) ", 
 "  submitr::null_code_checker)", "", "theme_set(theme_void(base_size = 20))", 
-"", "crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')"
-), overwrite = FALSE)
+"", "crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')", 
+"pkg_path <- system.file(package = 'factful')"), overwrite = FALSE)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
@@ -631,8 +633,8 @@ learnr:::store_exercise_setup_chunk("__setup__", c("require(tidyverse)", "librar
 "                      fig.width = 4.5, fig.height = 3.5)", "learnr::tutorial_options(", 
 "  exercise.timelimit = 200, ", "  exercise.checker = #gradethis::grade_learnr) ", 
 "  submitr::null_code_checker)", "", "theme_set(theme_void(base_size = 20))", 
-"", "crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')"
-), overwrite = FALSE)
+"", "crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')", 
+"pkg_path <- system.file(package = 'factful')"), overwrite = FALSE)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
@@ -642,8 +644,8 @@ learnr:::store_exercise_setup_chunk("__setup__", c("require(tidyverse)", "librar
 "                      fig.width = 4.5, fig.height = 3.5)", "learnr::tutorial_options(", 
 "  exercise.timelimit = 200, ", "  exercise.checker = #gradethis::grade_learnr) ", 
 "  submitr::null_code_checker)", "", "theme_set(theme_void(base_size = 20))", 
-"", "crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')"
-), overwrite = FALSE)
+"", "crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')", 
+"pkg_path <- system.file(package = 'factful')"), overwrite = FALSE)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
@@ -653,8 +655,19 @@ learnr:::store_exercise_setup_chunk("__setup__", c("require(tidyverse)", "librar
 "                      fig.width = 4.5, fig.height = 3.5)", "learnr::tutorial_options(", 
 "  exercise.timelimit = 200, ", "  exercise.checker = #gradethis::grade_learnr) ", 
 "  submitr::null_code_checker)", "", "theme_set(theme_void(base_size = 20))", 
-"", "crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')"
-), overwrite = FALSE)
+"", "crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')", 
+"pkg_path <- system.file(package = 'factful')"), overwrite = FALSE)
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_setup_chunk("__setup__", c("require(tidyverse)", "library(learnr)", "library(submitr)", 
+"library(etude)", "library(gradethis)", "library(ggformula)", 
+"library(gganimate)", "knitr::opts_chunk$set(echo = FALSE,", 
+"                      fig.width = 4.5, fig.height = 3.5)", "learnr::tutorial_options(", 
+"  exercise.timelimit = 200, ", "  exercise.checker = #gradethis::grade_learnr) ", 
+"  submitr::null_code_checker)", "", "theme_set(theme_void(base_size = 20))", 
+"", "crime <- read_csv('https://sldr.netlify.app/data/sscrime.csv')", 
+"pkg_path <- system.file(package = 'factful')"), overwrite = FALSE)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">

@@ -310,7 +310,7 @@ It looks like this:
 Make sure you know where the tilde is located on your computer's keyboard! It is often near the upper left-hand corner on American keyboards.
 
 ```{r echo = FALSE, fig.align = "center", out.width = "40%"}
-knitr::include_graphics("./images/keyboard-tilde.png")
+knitr::include_graphics("https://sldr.netlify.app/data/keyboard-tilde.png")
 ```
 
   
@@ -1265,7 +1265,7 @@ You will almost certainly want to adjust figure sizes in your own RMarkdown docu
 The values of `fig.width` and `fig.height` are expected to be given in inches, by default.
 
 ```{r, echo=FALSE, fig.width = 6, fig.height = 0.7}
-knitr::include_graphics('./images/fig-size.png')
+knitr::include_graphics('https://sldr.netlify.app/data/fig-size.png')
 ```
 
 
