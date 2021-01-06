@@ -127,11 +127,11 @@ Let's practice what you just learned, trying out the `sqrt()` and `round()` func
 
 Edit the code below to compute the square root of 64:
 
-```{r find-sqrt, exercise=TRUE}
+```{r find-sqrt, exercise=TRUE, eval = FALSE}
 function(information_R_needs)
 ```
 
-```{r find-sqrt-hint-1}
+```{r find-sqrt-hint-1, eval = FALSE}
 sqrt(information_R_needs)
 ```
 
@@ -141,22 +141,22 @@ sqrt(64)
 
 Now try computing the square root of 44, then rounding it to the nearest integer:
 
-```{r round-sqrt, exercise=TRUE}
+```{r round-sqrt, exercise=TRUE, eval = FALSE}
 function1(information_R_needs)
 function2(information_R_needs)
 ```
 
-```{r round-sqrt-hint-1}
+```{r round-sqrt-hint-1, eval = FALSE}
 sqrt(information_R_needs)
 function2(information_R_needs)
 ```
 
-```{r round-sqrt-hint-2}
+```{r round-sqrt-hint-2, eval = FALSE}
 sqrt(44)
 function2(information_R_needs)
 ```
 
-```{r round-sqrt-hint-3}
+```{r round-sqrt-hint-3, eval = FALSE}
 sqrt(44)
 round(information_R_needs)
 ```
@@ -341,27 +341,27 @@ The code below contains a couple of the **most common mistakes** students make w
 
 The code below should read in some baseball statistics from the file <https://sldr.netlify.app/data/baseball.csv>.
 
-```{r baseball-mistakes, exercise = TRUE}
+```{r baseball-mistakes, exercise = TRUE, eval = FALSE}
 readr::read_csv(http://sldr.netlify.com/data/seball)
 ```
 
-```{r baseball-mistakes-hint-1}
+```{r baseball-mistakes-hint-1, eval = FALSE}
 readr::read_csv(http://sldr.netlify.com/data/baseball)
 ```
 
-```{r baseball-mistakes-hint-2}
+```{r baseball-mistakes-hint-2, eval = FALSE}
 readr::read_csv(http://sldr.netlify.com/data/baseball.csv)
 ```
 
-```{r baseball-mistakes-hint-3}
+```{r baseball-mistakes-hint-3, eval = FALSE}
 readr::read_csv('http://sldr.netlify.com/data/baseball.csv')
 ```
 
-```{r baseball-mistakes-hint-4}
+```{r baseball-mistakes-hint-4, eval = FALSE}
  <- readr::read_csv('http://sldr.netlify.com/data/baseball.csv')
 ```
 
-```{r baseball-mistakes-hint-5}
+```{r baseball-mistakes-hint-5, eval = FALSE}
 baseball <- readr::read_csv('http://sldr.netlify.com/data/baseball.csv')
 ```
 

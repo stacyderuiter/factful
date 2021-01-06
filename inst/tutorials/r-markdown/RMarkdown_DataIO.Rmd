@@ -125,7 +125,7 @@ knitr::include_graphics(path="https://sldr.netlify.app/data/MosaicFancy.png")
 ### Saving Rmd files
 
 - Save your file by clicking on the disk icon at the top of the file tab 
-- Use a clear file name like DeRuiterProject1.Rmd. *
+- Use a clear file name like DeRuiterProject1.Rmd. 
 - **Important: Avoid spaces and special characters in your file name).** If you don't, R will change the name when you knit it, and things will get complicated fast.
 - The file will be saved to the server, not to your computer.
 - All your files will be accessible in the RStudio *Files* tab (lower right panel) whenever you log into RStudio, regardless of which computer you are using. 
