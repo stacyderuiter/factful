@@ -108,24 +108,24 @@ Keeping the same scale for dollars-per-day, let's now try plotting by region.
 
 ```
 
-```{r log-level-by-region-hint-1}
+```{r log-level-by-region-hint-1, eval = FALSE}
 gf_histogram(~ ... ) %>%
   gf_refine(...)
 ```
 
-```{r log-level-by-region-hint-2}
+```{r log-level-by-region-hint-2, eval = FALSE}
 gf_histogram(~dollars_per_day | ______, data = incomes,
              breaks = c(0.2, 2, 8, 32, 600)) %>%
   gf_refine(...)
 ```
 
-```{r log-level-by-region-hint-3}
+```{r log-level-by-region-hint-3, eval = FALSE}
 gf_histogram(~dollars_per_day | region, data = incomes,
              breaks = c(0.2, 2, 8, 32, 600)) %>%
   gf_refine(scale_x_continuous(trans = ___))
 ```
 
-```{r log-level-by-region-hint-4}
+```{r log-level-by-region-hint-4, eval = FALSE}
 gf_histogram(~dollars_per_day | region, data = incomes,
              breaks = c(0.2, 2, 8, 32, 600)) %>%
   gf_refine(scale_x_continuous(trans = 'log2'))
