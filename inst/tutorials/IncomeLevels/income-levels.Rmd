@@ -27,9 +27,12 @@ Look at the dataset - either printing it to the screen or using function `glimps
 ## Exploration
 This tutorial will present a series of different plots to explore the data. 
 
+**Your goal as a group is to work through the exercises in order to answer the questions below. Make sure you have designated one group member to make notes on your answers to these questions to hand in at the end.**
+
 - Which do you prefer and why? 
 - What does each one show best? 
 - How do they compare to plots in *Factfulness* Chapter 1 on pages 33 and 41?
+- What are the advantages/disadvantages, comparing your favorite plot to the one from *Factfulness* Chapter 1?
 
 ## Basic histogram
 Let's begin with a basic histogram of income (variable `dollars_per_day`).
@@ -38,30 +41,30 @@ Let's begin with a basic histogram of income (variable `dollars_per_day`).
 
 ```
 
-```{r income-hist-hint-1}
+```{r income-hist-hint-1, eval = FALSE}
 gf_histogram(~_________, data = __________)
 ```
 
-```{r income-hist-hint-2}
+```{r income-hist-hint-2, eval = FALSE}
 gf_histogram(~_________, data = incomes)
 ```
 
-```{r income-hist-hint-3}
+```{r income-hist-hint-3, eval = FALSE}
 gf_histogram(~dollars_per_day, data = incomes)
 ```
 
 ## Income by Region
 What about modifying the histogram so it has one panel per region?
 
-```{r, income-by-region, exercise = TRUE}
+```{r, income-by-region, exercise = TRUE, eval = FALSE}
 
 ```
 
-```{r income-by-region-hint-1}
+```{r income-by-region-hint-1, eval = FALSE}
 gf_histogram(~dollars_per_day | _______, data = incomes)
 ```
 
-```{r income-by-region-hint-2}
+```{r income-by-region-hint-2, eval = FALSE}
 gf_histogram(~dollars_per_day | region, data = incomes)
 ```
 
@@ -152,3 +155,5 @@ gf_density(~dollars_per_day, fill = ~region, data = incomes,
 Which do you prefer, the overlaid or stacked version? Why?
 
 Why do you think the *Factfulness* authors chose to use the plots they did, rather than one or more like the ones you just made? What are the advantages and disadvantages of their approach? 
+
+Do you have ideas for further improvements to make even better graphics? I would love to hear them!

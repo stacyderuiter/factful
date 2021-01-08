@@ -22,7 +22,7 @@ We will use data from [Gapminder](https://www.gapminder.org/) on life expectanci
 First, we will read in our dataset:
 
 ```{r data-in, exercise = TRUE}
-gapminder <- read.csv('http://sldr.netlify.com/data/gapminder_full_clean.csv')
+gapminder <- read.csv('https://sldr.netlify.app/data/gapminder_full_clean.csv')
 ```
 
 ### What happened?
@@ -47,11 +47,11 @@ Starting simple, let's make a scatter plot of life expectancy as a function of i
 
 ```
 
-```{r life-vs-income-hint-1}
+```{r life-vs-income-hint-1, eval = FALSE}
 gf_point(life_expectancy ~ income, data = ___)
 ```
 
-```{r life-vs-income-hint-2}
+```{r life-vs-income-hint-2, eval = FALSE}
 gf_point(life_expectancy ~ income, data = gapminder)
 ```
 
@@ -67,11 +67,11 @@ Try creating a plot with one panel for each of the four regions.  *You might nee
 
 ```
 
-```{r multi-panel-hint-1}
+```{r multi-panel-hint-1, eval = FALSE}
 gf_point(life_expectancy ~ income | ____ , data = gapminder)
 ```
 
-```{r multi-panel-hint-2}
+```{r multi-panel-hint-2, eval = FALSE}
 gf_point(life_expectancy ~ income | four_regions , data = gapminder)
 ```
 
@@ -82,7 +82,7 @@ Another idea would be to use a different color for each region.
 
 ```
 
-```{r regions-hint-1}
+```{r regions-hint-1, eval = FALSE}
 gf_point(life_expectancy ~ income, color = ~four_regions, data = gapminder)
 ```
 
@@ -93,11 +93,11 @@ We expect that there were changes over time in both income and life expectancy. 
 
 ```
 
-```{r time-hint-1}
+```{r time-hint-1, eval = FALSE}
 gf_point(life_expectancy ~ income, color = ~___, data = gapminder)
 ```
 
-```{r time-hint-2}
+```{r time-hint-2, eval = FALSE}
 gf_point(life_expectancy ~ income, color = ~year, data = gapminder)
 ```
 
@@ -110,15 +110,15 @@ Another huge difference between countries and regions is the number of people wh
 
 ```
 
-```{r pop-hint-1}
+```{r pop-hint-1, eval = FALSE}
 gf_point(life_expectancy ~ income, size = ~___, data = gapminder)
 ```
 
-```{r pop-hint-2}
+```{r pop-hint-2, eval = FALSE}
 gf_point(life_expectancy ~ income, size = ~population, data = gapminder)
 ```
 
-```{r pop-hint-3}
+```{r pop-hint-3, eval = FALSE}
 gf_point(life_expectancy ~ income, size = ~population, 
          alpha = 0.5, data = gapminder)
 ```
@@ -133,18 +133,18 @@ How could we include both region *and* population?  Just combine the `size` and 
 
 ```
 
-```{r region-and-pop-hint-1}
+```{r region-and-pop-hint-1, eval = FALSE}
 gf_point(life_expectancy ~ income, size = ~___, color = ~____,
          data = gapminder)
 ```
 
-```{r region-and-pop-hint-2}
+```{r region-and-pop-hint-2, eval = FALSE}
 gf_point(life_expectancy ~ income, size = ~population, 
          color = ~four_regions,
          data = gapminder)
 ```
 
-Cool!  But what about time? We need **another dimension** to show everything...
+Cool!  Well, kind of. We're making progress. But what about time? We need **another dimension** to show everything...
 
 ## Animated bubble chart
 What if we **animate** the chart to show how things change over time?
@@ -161,10 +161,13 @@ bubbles <- gf_point(life_expectancy ~ income,
  # gf_text(life_expectancy ~ income, label = ~country, size = 3,
   #        hjust = 0, vjust = 1, color = 'black', alpha = 0.5)
 
-ggplotly(bubbles)
+ggplotly(bubbles) %>%
+   animation_opts(frame = 5)
 ```
 
 The hash tags comment out code in R (preventing it from running).
+
+You can adjust the speed by changing the "5" in the last line. (It specifies the time between frames in milliseconds.)
 
 What do you think will happen if you uncomment the first line?  Give it a try (changing the year threshold to something other than 1990 if you wish).
 
