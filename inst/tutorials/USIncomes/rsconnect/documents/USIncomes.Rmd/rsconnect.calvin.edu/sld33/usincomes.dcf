@@ -5,8 +5,8 @@ account: sld33
 server: rsconnect.calvin.edu
 hostUrl: https://rsconnect.calvin.edu:3939/__api__
 appId: 37
-bundleId: 59
+bundleId: 349
 url: https://rsconnect.calvin.edu:3939/content/37/
-when: 1578658364.00165
+when: 1610333257.35749
 asMultiple: FALSE
 asStatic: FALSE

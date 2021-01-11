@@ -34,11 +34,11 @@ The cleaned up data is hosted at: <https://sldr.netlify.com/data/incomes.csv>; r
 
 ```
 
-```{r data-in-hint-1}
+```{r data-in-hint-1, eval = FALSE}
 incomes <- read_csv( ___________ )
 ```
 
-```{r data-in-hint-2}
+```{r data-in-hint-2, eval = FALSE}
 incomes <- read_csv('https://sldr.netlify.com/data/incomes.csv')
 ```
 
@@ -50,7 +50,7 @@ How does median income change over time?
 ```
 
 
-```{r income-over-time-hint-1}
+```{r income-over-time-hint-1, eval = FALSE}
 gf_point(median_income ~ year, data = incomes)
 ```
 
@@ -61,7 +61,7 @@ Why do there seem to be so many different trend lines?  **Education** is one fac
 
 ```
 
-```{r color-by-ed-hint-1}
+```{r color-by-ed-hint-1, eval = FALSE}
 gf_point(median_income ~ year, data = incomes, color = ~education)
 ```
 
@@ -73,7 +73,7 @@ There still seem to be multiple lines for each education level. What is going on
 ```
 
 
-```{r income-by-sex-hint-1}
+```{r income-by-sex-hint-1, eval = FALSE}
 gf_point(median_income ~ year, data = incomes, 
          color = ~education,
          shape = ~sex)
