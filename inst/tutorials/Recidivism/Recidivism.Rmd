@@ -62,6 +62,25 @@ The paper's abstract reads:
 
 We will recreate and explore some of their results.
 
+## Reporting
+While **you do not need to submit any work on Moodle** for this exercise, you *do* need to report on your progress as you go.
+
+In your group, make sure to appoint:
+
+- a *manager* who will keep everyone on track, 
+- a *tutorial driver* who will run the tutorial and share their screen,
+- a *reader* who will read text/instructions out loud and make sure everyone "gets" them,
+- a *reporter* who will send chat messages to the prof as needed, and
+- a *devil's advocate* who will gleefully disagree as best they can, as much as they can, with everything (make everyone else defend their views and keep things fun)
+
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q1. Any time you see the chat icon above, have your chosen group member send a private chat message to Prof DR with your group's answer to the question. For this first one, send me a first message saying that you got the directions about the chat messages!**  
+
+This helps me know where you are in your work, and keep pace with your group's thoughts too. (*Thanks in advance!*)
+
 ## Data Description
 
 The dataset is called `recid`. Use R to find out what variables are included in the dataset. Is each one quantitative or categorical? Can you tell from the names and values what each one is measuring?
@@ -75,9 +94,6 @@ The dataset is called `recid`. Use R to find out what variables are included in 
 glimpse(recid)
 ```
 
-```{r data-types-hint-2}
-recid
-```
 
 ### Varible Explanations
 Many of the variable names are self-explanatory, but not all. Here are a few more details:
@@ -90,39 +106,79 @@ Many of the variable names are self-explanatory, but not all. Here are a few mor
 - `compas_correct`: Whether or not the COMPAS prediction was correct about 2-year recidivism
 - `two_year_recid` indicates whether a person actually did return to prison within two years after release
 
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+<br>
+**Q2. Any questions about the dataset?**
+<br>
+
 
 ## Data Visualization
-Which of the variables in the dataset do you think might correlate with recidivism?
 
-The exercises below will walk you through plotting a few of these relationships, but you are welcome to explore more on your own. You may want to return to the [basic](https://rsconnect.calvin.edu:3939/content/8/) and [advanced](https://rsconnect.calvin.edu:3939/content/9/) plotting tutorials for examples of code to create plots (or use the hints provided).
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q3. Which of the variables in the dataset do you think might correlate with recidivism?**
+<br>
+
+The exercises below will walk you through plotting a few of these relationships, but you are welcome to explore more on your own if you've been working on learning to create your own plots. (Or, just use the hints provided).
 
 ### Previous Convictions
 
 How do previous criminal charges (juvenile or adult) relate to recidivism? For this (and following) plots, we will use the variable `two_year_recid` to indicate whether the person actually did recidivate.
 
-```{r recid-vs-prev, exercise = TRUE}
+#### Number of prior convictions
+
+```{r recid-vs-priors, exercise = TRUE}
 
 ```
 
-```{r recid-vs-prev-hint-1}
+```{r recid-vs-priors-hint-1}
 gf_boxplot(priors_count ~ two_year_recid, data = recid) %>%
   gf_refine(coord_flip())
 ```
 
-```{r recid-vs-prev-hint-2}
+#### Number of Juvenile Felonies
+
+```{r recid-vs-juv, exercise = TRUE}
+
+```
+
+```{r recid-vs-juv-hint-1}
 gf_boxplot(juv_fel_count ~ two_year_recid, data = recid) %>%
   gf_refine(coord_flip())
 ```
 
-```{r recid-vs-prev-hint-3}
+#### Number of Juvenile Misdemeanors
+
+```{r recid-vs-juvm, exercise = TRUE}
+
+```
+
+```{r recid-vs-juvm-hint-1}
 gf_boxplot(juv_misd_count ~ two_year_recid, data = recid) %>%
   gf_refine(coord_flip())
 ```
 
-```{r recid-vs-prev-hint-4}
+#### Number of priors (another way)
+
+```{r recid-vs-priors2, exercise = TRUE}
+
+```
+
+```{r recid-vs-priors2-hint-1}
 gf_bar(~two_year_recid, fill = ~factor(priors_count), 
        data = recid, position = 'stack')
 ```
+
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q4. What patterns do you see? (For example,** *"The higher the number of ____, the more (or less) likely recidivism is"* **...) Do you think this tells us something about prisoner characteristics, the prison system, or US culture?**
 
 ### Age
 Does recidivism seem to depend on age?
@@ -135,12 +191,18 @@ Does recidivism seem to depend on age?
 gf_boxplot(age ~ two_year_recid, data = recid)
 ```
 
-It seems maybe there is a difference. But do you think that the *probability* of recidivism depends linearly on age, or has some other pattern? Try to imagine or sketch what you'd expect the plot to look like.
+It seems maybe there is a difference. But would you expect that the *probability* of recidivism depends linearly on age, or has some other pattern? Try to imagine or sketch what you'd expect the plot to look like.
+
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q5. What do you think the trend will look like? Describe, or even send a photo or screenshot of a sketch.**
 
 ### Age (linearity)
 How does the probability of recidivism change with age? To look at this more carefully, we need to divide age into some groups, and then find the proportion recidivism in each age group:
 
-```{r, age-lin, echo = TRUE}
+```{r, age-lin, exercise = TRUE}
 recid_age <- recid %>%
   mutate(age_group = cut_interval(age, length = 5, center = 22.5)) %>%
   group_by(age_group) %>%
@@ -151,8 +213,6 @@ recid_age <- recid %>%
 gf_point(prop_recid ~ age_group, data = recid_age,
          size = ~number) %>% 
   gf_theme(axis.text.x = element_text(angle = 65, hjust = 1))
-
-
 ```
 
 Were your predictions correct?
@@ -170,10 +230,14 @@ gf_bar(~two_year_recid | sex,
        position = 'dodge', data = recid)
 ```
 
-What are some problems you have with this plot?
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q6. Critique this graphic. What story is it telling, and does it do so clearly? Think back to the graphics design tutorials you completed, and try to list 3 or more things you could change to improve this plot.**
 
 ### Race
-What about differences in recidivism by race? If you see differences, think about *why*. We doubt that racial differences *cause* different recidivism rates (why?). So what *lurking variables* (other things also associated with both race and recidivism) could be actually causing the differences?
+What about differences in recidivism by race? 
 
 ```{r race, exercise = TRUE}
 
@@ -185,6 +249,12 @@ gf_bar(~two_year_recid, fill = ~race,
 ```
 
 Again, what things do you find frustrating about this plot? (There are several!)
+
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q7. If you see differences by race, think about** *why*. **We really, really doubt that racial differences** *cause* **different recidivism rates. So what** *lurking variables* **(other things also associated with both race and recidivism) could be actually causing the differences? Can your group suggest at least 2-3 possibilities?**
 
 ### Race and Sex, again
 Another way you may want to look at the data is below.
@@ -233,35 +303,58 @@ gf_bar(~ 1 | charge_degree, fill=~two_year_recid,
   coord_polar('y')
 ```
 
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q8. Which of the last 2 plots does your group prefer -- the bar or the pie? Justify your choice citing specific details. (Here's a factually wrong example showing the kind of justification I hope for: "The colors in the pie chart are less distractingly garish, more easily distinguished by color-blind viewers, and evoke the darkness of criminality and imprisonment, so we like the pie.")** 
+
 ## COMPAS model
 A model called COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) is widely used in the US to predict the chances that a person will recidivate. The COMPAS scores are then used to help make decisions about how a person's trial will be conducted, whether they will get parole, and what their sentence will be.
 
 ### Overall Recivivism
 How well does COMPAS do at predicting recidivism overall?  
 
-```{r compas-all, exercise = TRUE}
+#### COMPAS Scores vs. Recidivism
+```{r compas-a, exercise = TRUE}
 
 ```
 
-```{r compas-all-hint-1}
+```{r compas-a-hint-1}
 gf_boxplot(compas_decile_score ~ two_year_recid, data = recid)
 ```
 
-```{r compas-all-hint-2}
+#### COMPAS Prediction Accuracy
+
+```{r compas-b, exercise = TRUE}
+
+```
+
+```{r compas-b-hint-1}
 gf_bar(~1, fill=~compas_correct, data = recid, 
        width=1) %>% 
   gf_theme(blank_theme) + 
   coord_polar('y')
 ```
 
-```{r compas-all-hint-3}
+#### COMPAS Prediction Accuracy, Again
+
+```{r compas-c, exercise = TRUE}
+
+```
+
+```{r compas-c-hint-1}
 tally(compas_prediction ~ two_year_recid, data = recid,
       format = 'percent')
 ```
 
-Considering these plots and tables, how do you think COMPAS is doing in terms of overall accuracy?  
+Considering these plots and tables, how do you think COMPAS is doing in terms of overall accuracy? 
 
-You may want to consider how often it gives correct results, false positives (predicting recidivism when it doesn't happen), and false negatives (predicting no recidivism, then it happens). Which kind of error do you think is *worst* and why?
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q9. Try to determine from the graphs and table how often COMPAS gives correct results, false positives (predicting recidivism when it doesn't happen), and false negatives (predicting no recidivism, then it happens). Which kind of error does your team think is the** *worst* **mistake to make, and why?**
 
 ### We paid for this???
 [Dressel and Farid](https://advances.sciencemag.org/content/4/1/eaao5580) suggest that although the COMPAS algorithm is proprietary, it's not hard for any statistician to create a very simple model that performs about as well; nor does COMPAS outperform people's predictions, they argue.
@@ -272,12 +365,24 @@ They used this data to test out several different ways of making predictions lik
 - Same as above, but with race
 - They fitted a simple statistical model to predict recidivism based on 7 features (age, sex, race, juvenile and adult prior convictions, and whether current prosecution was for felony or misdemeanor)
 - Same as above, but a fancier model
-- Same as simple model above, but using only age and total number of prior convictions as predictors
+- Same as simple model above, but using *only* age and total number of prior convictions as predictors
 
-They present the results in [Table 2 of their paper](https://advances.sciencemag.org/content/4/1/eaao5580#T2). Check it out -- what do you conclude?  Would *you* trust a model that works this way for use in the criminal justice system, to help determine peoples' futures?
+They present the results in [Table 2 of their paper](https://advances.sciencemag.org/content/4/1/eaao5580#T2). Check it out.
+
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q10. Notice columns A-C are the "toy" statistical models, and column D is COMPAS. Comparing the "toy" models (lumped together) vs. COMPAS, how do their accuracy, false positive rates, and false negative rates compare? (Spoiler: COMPAS doesn't seem to work better than the toy models enough to motivate me to pay a lot for it as a commercial product!) **
+
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q11. In your group, approximately what false positive and false negative rates would you want before you would feel comfortable using such a model in the criminal justice system, to help determine peoples' futures?** *Is* **there a performance level that would be "good enough"?**
 
 ### COMPAS by sex
-Is COMPAS equally accurate for people of different sexes?
+Is COMPAS equally accurate for people of different sexes? (This dataset encodes sex as either male or female, no other options.)
 
 ```{r compas-sex, exercise = TRUE}
 
@@ -297,7 +402,7 @@ tally(~compas_correct | sex, data = recid,
 ```
 
 ### COMPAS by race
-Is COMPAS approximately equally accurate for people of different races?
+Is COMPAS approximately equally accurate for people of different races? (The race/ethnicity categories shown were defined by the group who collected the data; they are not exhaustive and don't allow for one person to identify as several.)
 
 ```{r compas-race, exercise = TRUE}
 
@@ -316,12 +421,13 @@ t(tally(~compas_correct | race, data = recid,
       format = 'percent'))
 ```
 
-Does this seem fair? In what sense?
+
+Would you say the algorithm is racist, or is making racially injust predictions? How could this happen (when race was not even input to the model)? Let's consider...
 
 ## Digging Deeper: Race
 The COMPAS model does not use race as a predictor, but it *does* contain many other variables that are associated with race in America (geographic and socio-economic ones, for example).
 
-Cathy O'Neil speaks about several ways algorithms can go wrong; how could we use her framework to state what it would mean for COMPAS to be "fair" and "accurate" at predicting recidivism for people of all races?
+What would it mean for COMPAS to be "fair" and "accurate" at predicting recidivism for people of all races?
 
 ### COMPAS Racial Fairness According to Dressel and Farid
 
@@ -331,8 +437,11 @@ Cathy O'Neil speaks about several ways algorithms can go wrong; how could we use
 
 *In response to this analysis, Northpointe argued that the ProPublica analysis overlooked other more standard measures of fairness that the COMPAS score satisfies [see the studies of Flores et al. and Kleinberg et al.]. Specifically, it is argued that the COMPAS score is not biased against blacks because the likelihood of recidivism among high-risk offenders is the same regardless of race (predictive parity), it can discriminate between recidivists and nonrecidivists equally well for white and black defendants as measured with the area under the curve of the receiver operating characteristic, AUC-ROC (accuracy equity), and the likelihood of recidivism for any given score is the same regardless of race (calibration). The disagreement amounts to different definitions of fairness. In an eloquent editorial, Corbett-Davies et al. explain that it is impossible to simultaneously satisfy all of these definitions of fairness because black defendants have a higher overall recidivism rate (in the Broward County data set, black defendants recidivate at a rate of 51% as compared with 39% for white defendants, similar to the national averages).*
 
-- What questions do you have (concepts and terminology you don't understand, for example) about the quotes above?
-- Which measure of "fairness" seems most important to you, and why?
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q12. Which way of defining and measuring fairness makes most sense to your group?**
 
 
 ## WMD??
@@ -340,10 +449,30 @@ Cathy O'Neil suggests that an algorithm that has three specific features can be 
 
 What are the three features? *Hint: they start with* **W**, **M**, *and* **D**...
 
-### WMD features
+## WMD features
 
 - **W**idespread
 - **M**ysterious
 - **D**estructive
 
-Do you think that the COMPAS model qualifies as a WMD? Explain why or why not.
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q13. Do you think that the COMPAS model qualifies as a WMD? Explain why or why not.**
+
+## Parting Thoughts
+
+Recall your Tuesday reading.
+
+Many discussions of recidivism prediction take for granted that it's a good idea to try to predict whether or not a defendant is likely to commit a future crime, and use that information to influence decisions like sentencing.
+
+Others are deeply uncomfortable at the very idea of making such predictions, arguing that they are inherently unjust and (even if they were fair and just) deny peoples' individuality and potential to grow and change.
+
+```{r, out.width = '10%', out.extra='style="float:left; padding:10px"'}
+knitr::include_graphics('https://image.flaticon.com/icons/png/512/61/61772.png')
+```
+
+**Q14. What do you think? Should predicted probability of recidivism be part of criminal trial and sentencing procedures? Why or why not?**
+
+(*At this point you may be making some connections to other course readings and EGW!*)
