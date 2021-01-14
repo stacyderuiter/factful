@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE,
 
 theme_set(theme_minimal(base_size = 16))
 
-refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugee-data.csv',
+refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugees-only.csv',
                    skip = 14)
 refuge2020 <- filter(refuge, 
                      Year == 2020)
@@ -57,6 +57,17 @@ dest <- dest %>%
          refugees_percent = refugees_thousands / sum(pull(dest, refugees_thousands)) * 100) 
 ```
 
+## Group Roles
+
+Before you begin, assign roles within your group:
+
+- **RStudio operator** will run this tutorial and share their screen. *Probably a member of the Considering the Evidence section with RStudio access.*
+- **Reader** will read instructions and questions *aloud*.
+- **Recorder** will make notes on your conversations
+- **Reporter** will report your key insights to the full class at end
+- **Rascal** will try to keep conversation lively by disagreeing or questioning everything (respectfully and constructively). *Perhaps a Finding Refuge section member who will practice their dialogic response skills.*
+
+Combine/share roles as needed depending on the size of your group.
 
 ## Who are Refugees?
 
@@ -89,7 +100,7 @@ The data come [from the UNHCR](https://www.unhcr.org/refugee-statistics/download
 In R, we use the code below to read in the data:
 
 ```{r unhcr-data-in, exercise = TRUE}
-refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugee-data.csv',
+refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugees-only.csv',
                    skip = 14)
 ```
 
@@ -114,17 +125,19 @@ refuge2020 <- filter(refuge,
 
 ## Objectives
 
-Where did refugees come from, and where did they settle? How many? Your group will create and review several graphics to explore the data.
+Where did refugees come from, and where did they settle? How many? Use graphics of our data to find out.
 
-**One way to see it is that any graph tells a story. Another is that each graph answers a precise, concrete question. The best data analysts** *know* **what this question is as they create the graph, and make design choices to highlight the answer.**
+**We might say, each graph tells a story. Or, each graph answers a precise, concrete question. The best data analysts** *know what this question is*  **as they create the graph, and make design choices to highlight the answer.**
 
-As your group considers each graph, you may consider 3 key questions together:
+As you view  each graph, consider 3 key questions:
 
 1. What is the question the graph answers?
 2. What is the answer?
 3. What concrete features of the graph draw your focus to the answer? What, if anything, is distracting?
 
 ## Top Sources in 2020, Graph A
+
+Before you peek, where do you *think* most refugees in 2020 came from?
 
 ```{r top-sources, exercise = TRUE, fig.height=8, fig.width=7, echo = TRUE}
 sources <- refuge2020 %>%
@@ -153,7 +166,7 @@ gf_col(origin ~ refugees_millions,
 
 *For any teams interested in playing with the R code: can you figure out how to change the limit on which source countries are shown? Now it is ones with at least 500,000 refugees. Could you make it 250,000? Or 1,000,000?*
 
-## Top sources in 2020, Plot B
+## Top sources in 2020, Graph B
 
 ```{r sources-prct, exercise = TRUE, fig.height=8, fig.width=7}
 gf_col(origin ~ refugees_percent,
@@ -165,11 +178,15 @@ gf_col(origin ~ refugees_percent,
   
 ```
 
-*Is this graph different than the one before, other than showing percentages rather than numbers of people?  Which version is easier for you to make sense of? Which better emphasizes the fact that these are people, not just statistics? And can you think of other concrete changes to the graph that could emphasize that even more?*
+*How is Graph B different from Graph A?  Which version is easier for you to make sense of?* 
 
-## Destinations in 2020, Plot C
+*Which better emphasizes the fact that these are people, not just statistics? And can you think of other concrete changes to the graph that could emphasize that even more?*
 
-We've considered where refugees have come from; what about where they end up?
+## Destinations in 2020, Graph C
+
+We've considered where refugees have come from; what about where they end up? 
+
+Before you peek, guess where you think most refugees go.
 
 ```{r top-dests, exercise = TRUE, fig.height=8, fig.width=8, echo = TRUE}
 dest <- refuge2020 %>%
@@ -199,7 +216,7 @@ gf_col(destination ~ refugees_millions,
 
 *Any surprises here? Are there countries you did or did not expect to see?*
 
-## Destinations in 2020, Plot D
+## Destinations in 2020, Graph D
 
 ```{r dest-prct, exercise = TRUE, fig.height=8, fig.width=8}
 gf_col(destination ~ refugees_percent,
@@ -217,6 +234,8 @@ gf_col(destination ~ refugees_percent,
 
 ## USA, over time
 
+We first looked at 2020 data. How have things changed over time?  For this part, we focus on the USA.
+
 ```{r usa-over-time, exercise = TRUE, fig.width = 8, fig.height = 3}
 usa <- filter(refuge, `Country of asylum` == 'United States of America') %>%
   group_by(Year) %>%
@@ -233,6 +252,14 @@ gf_line(refugees / 1000 ~ Year,
 ## USA, over time, different?
 
 Consider a [graph from the Migration Policy Institute](https://public.tableau.com/views/RefugeeAdmissionstotheU_S_WRAPS1980-2020March/Dashboard1?:increment_view_count=no&:embed=y&:embed_code_version=3&:loadOrderID=0&:display_count=y&publish=yes&:origin=viz_share_link) that we might expect to look quite similar to our last one. What differences do you note? Can you identify possible reasons for the difference?
+
+**Hints: Do we know where the data came from for each graph?  How is "refugee" defined for each one?**
+
+## Why the differences?
+
+As we have learned, context and understanding of your dataset are *key*!
+
+Digging reveals that the data for the 2nd MPI graph came from an unknown source, but probably a US government one. The other dataset (ours) is from the UNHCR.  Both should be reliable, but they are clearly using different definitions of "refugees", with the UNHCR database lumping together "refugees" and "people in a refugee-like situation" ([definitions online](https://www.unhcr.org/refugee-statistics/methodology/definition/)). The UNHCR database provides no way to separate these two. But as the MPI graph shows, the vast majority must be those in refugee-like situations.
 
 ## USA and Everyone, over time
 
@@ -255,7 +282,8 @@ gf_line(refugees/1000000 ~ Year,
         color = ~country,
         data = all) %>%
   gf_refine(scale_color_discrete('Destination')) %>%
-  gf_labs(y = 'Millions of Refugees')
+  gf_labs(y = 'Millions of Refugees') %>%
+  plotly::ggplotly()
 ```
 
 *Notice how the story of this plot is very different from the previous plots showing just US numbers over time!*
@@ -266,11 +294,13 @@ It is also possible to display this same dataset using a much more complex, and 
 
 One example is the [data dashboard on the Migration Policy Institute website](https://www.migrationpolicy.org/programs/data-hub/charts/refugee-and-asylum-seeker-populations-country-origin-and-destination?width=1000&height=850&iframe=true).
 
-*Investigate the dashboard for a few minutes and formulate two advantages and two disadvantages of this display, compared to our earlier simpler plots.*
+*Investigate the dashboard for a few minutes and identify two advantages and two disadvantages of this display, compared to our simpler plots.*
+
+You may also want to try looking at the number of refugees entering the US, according to this graph, which uses the UNHCR dataset we've been using all along.  It looks just like our earlier graphs, lumping refugees and those in refugee-like situations together!
 
 ## Conversation
 
-*Have one group member take notes during this final conversation that you can hand in, and perhaps share with the whole class at the end (time permitting).*
+*Have one group member take notes during this final conversation that you can hand in, and use to identify a few key insights to share with the whole class at the end.*
 
 How did this exercise affect your knowledge of global flows of refugees? Were there surprises, or things that really stuck in your mind?
 

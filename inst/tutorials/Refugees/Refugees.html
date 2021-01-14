@@ -116,6 +116,18 @@ $(document).ready(function () {
 
 <div class="topics">
 
+<div id="section-group-roles" class="section level2">
+<h2>Group Roles</h2>
+<p>Before you begin, assign roles within your group:</p>
+<ul>
+<li><strong>RStudio operator</strong> will run this tutorial and share their screen. <em>Probably a member of the Considering the Evidence section with RStudio access.</em></li>
+<li><strong>Reader</strong> will read instructions and questions <em>aloud</em>.</li>
+<li><strong>Recorder</strong> will make notes on your conversations</li>
+<li><strong>Reporter</strong> will report your key insights to the full class at end</li>
+<li><strong>Rascal</strong> will try to keep conversation lively by disagreeing or questioning everything (respectfully and constructively). <em>Perhaps a Finding Refuge section member who will practice their dialogic response skills.</em></li>
+</ul>
+<p>Combine/share roles as needed depending on the size of your group.</p>
+</div>
 <div id="section-who-are-refugees" class="section level2">
 <h2>Who are Refugees?</h2>
 <p><em>Note: you may have already watched these brief videos in preparation for class. If so, re-watching is optional.</em></p>
@@ -144,7 +156,7 @@ $(document).ready(function () {
 <p>The data come <a href="https://www.unhcr.org/refugee-statistics/download/?url=Wrtv6K">from the UNHCR</a>, downloaded in January 2021.</p>
 <p>In R, we use the code below to read in the data:</p>
 <div class="tutorial-exercise" data-label="unhcr-data-in" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>refuge &lt;- read_csv(&#39;https://sldr.netlify.app/data/unhcr-refugee-data.csv&#39;,
+<pre class="text"><code>refuge &lt;- read_csv(&#39;https://sldr.netlify.app/data/unhcr-refugees-only.csv&#39;,
                    skip = 14)</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false}</script>
 </div>
@@ -167,9 +179,9 @@ $(document).ready(function () {
 </div>
 <div id="section-objectives" class="section level2">
 <h2>Objectives</h2>
-<p>Where did refugees come from, and where did they settle? How many? Your group will create and review several graphics to explore the data.</p>
-<p><strong>One way to see it is that any graph tells a story. Another is that each graph answers a precise, concrete question. The best data analysts</strong> <em>know</em> <strong>what this question is as they create the graph, and make design choices to highlight the answer.</strong></p>
-<p>As your group considers each graph, you may consider 3 key questions together:</p>
+<p>Where did refugees come from, and where did they settle? How many? Use graphics of our data to find out.</p>
+<p><strong>We might say, each graph tells a story. Or, each graph answers a precise, concrete question. The best data analysts</strong> <em>know what this question is</em> <strong>as they create the graph, and make design choices to highlight the answer.</strong></p>
+<p>As you view each graph, consider 3 key questions:</p>
 <ol style="list-style-type: decimal">
 <li>What is the question the graph answers?</li>
 <li>What is the answer?</li>
@@ -178,6 +190,7 @@ $(document).ready(function () {
 </div>
 <div id="section-top-sources-in-2020-graph-a" class="section level2">
 <h2>Top Sources in 2020, Graph A</h2>
+<p>Before you peek, where do you <em>think</em> most refugees in 2020 came from?</p>
 <div class="tutorial-exercise" data-label="top-sources" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>sources &lt;- refuge2020 %&gt;%
   rename(origin = `Country of origin`,
@@ -204,8 +217,8 @@ gf_col(origin ~ refugees_millions,
 </div>
 <p><em>For any teams interested in playing with the R code: can you figure out how to change the limit on which source countries are shown? Now it is ones with at least 500,000 refugees. Could you make it 250,000? Or 1,000,000?</em></p>
 </div>
-<div id="section-top-sources-in-2020-plot-b" class="section level2">
-<h2>Top sources in 2020, Plot B</h2>
+<div id="section-top-sources-in-2020-graph-b" class="section level2">
+<h2>Top sources in 2020, Graph B</h2>
 <div class="tutorial-exercise" data-label="sources-prct" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>gf_col(origin ~ refugees_percent,
        data = filter(sources, refugees_percent &gt; 1)) %&gt;%
@@ -215,11 +228,13 @@ gf_col(origin ~ refugees_millions,
           y = &#39;&#39;)</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false}</script>
 </div>
-<p><em>Is this graph different than the one before, other than showing percentages rather than numbers of people? Which version is easier for you to make sense of? Which better emphasizes the fact that these are people, not just statistics? And can you think of other concrete changes to the graph that could emphasize that even more?</em></p>
+<p><em>How is Graph B different from Graph A? Which version is easier for you to make sense of?</em></p>
+<p><em>Which better emphasizes the fact that these are people, not just statistics? And can you think of other concrete changes to the graph that could emphasize that even more?</em></p>
 </div>
-<div id="section-destinations-in-2020-plot-c" class="section level2">
-<h2>Destinations in 2020, Plot C</h2>
+<div id="section-destinations-in-2020-graph-c" class="section level2">
+<h2>Destinations in 2020, Graph C</h2>
 <p>We’ve considered where refugees have come from; what about where they end up?</p>
+<p>Before you peek, guess where you think most refugees go.</p>
 <div class="tutorial-exercise" data-label="top-dests" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>dest &lt;- refuge2020 %&gt;%
   rename(origin = `Country of origin`,
@@ -247,8 +262,8 @@ gf_col(destination ~ refugees_millions,
 </div>
 <p><em>Any surprises here? Are there countries you did or did not expect to see?</em></p>
 </div>
-<div id="section-destinations-in-2020-plot-d" class="section level2">
-<h2>Destinations in 2020, Plot D</h2>
+<div id="section-destinations-in-2020-graph-d" class="section level2">
+<h2>Destinations in 2020, Graph D</h2>
 <div class="tutorial-exercise" data-label="dest-prct" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>gf_col(destination ~ refugees_percent,
        data = filter(dest, 
@@ -264,6 +279,7 @@ gf_col(destination ~ refugees_millions,
 </div>
 <div id="section-usa-over-time" class="section level2">
 <h2>USA, over time</h2>
+<p>We first looked at 2020 data. How have things changed over time? For this part, we focus on the USA.</p>
 <div class="tutorial-exercise" data-label="usa-over-time" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>usa &lt;- filter(refuge, `Country of asylum` == &#39;United States of America&#39;) %&gt;%
   group_by(Year) %&gt;%
@@ -281,6 +297,12 @@ gf_line(refugees / 1000 ~ Year,
 <div id="section-usa-over-time-different" class="section level2">
 <h2>USA, over time, different?</h2>
 <p>Consider a <a href="https://public.tableau.com/views/RefugeeAdmissionstotheU_S_WRAPS1980-2020March/Dashboard1?:increment_view_count=no&amp;:embed=y&amp;:embed_code_version=3&amp;:loadOrderID=0&amp;:display_count=y&amp;publish=yes&amp;:origin=viz_share_link">graph from the Migration Policy Institute</a> that we might expect to look quite similar to our last one. What differences do you note? Can you identify possible reasons for the difference?</p>
+<p><strong>Hints: Do we know where the data came from for each graph? How is “refugee” defined for each one?</strong></p>
+</div>
+<div id="section-why-the-differences" class="section level2">
+<h2>Why the differences?</h2>
+<p>As we have learned, context and understanding of your dataset are <em>key</em>!</p>
+<p>Digging reveals that the data for the 2nd MPI graph came from an unknown source, but probably a US government one. The other dataset (ours) is from the UNHCR. Both should be reliable, but they are clearly using different definitions of “refugees”, with the UNHCR database lumping together “refugees” and “people in a refugee-like situation” (<a href="https://www.unhcr.org/refugee-statistics/methodology/definition/">definitions online</a>). The UNHCR database provides no way to separate these two. But as the MPI graph shows, the vast majority must be those in refugee-like situations.</p>
 </div>
 <div id="section-usa-and-everyone-over-time" class="section level2">
 <h2>USA and Everyone, over time</h2>
@@ -303,7 +325,8 @@ gf_line(refugees/1000000 ~ Year,
         color = ~country,
         data = all) %&gt;%
   gf_refine(scale_color_discrete(&#39;Destination&#39;)) %&gt;%
-  gf_labs(y = &#39;Millions of Refugees&#39;)</code></pre>
+  gf_labs(y = &#39;Millions of Refugees&#39;) %&gt;%
+  plotly::ggplotly()</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false}</script>
 </div>
 <p><em>Notice how the story of this plot is very different from the previous plots showing just US numbers over time!</em></p>
@@ -312,11 +335,12 @@ gf_line(refugees/1000000 ~ Year,
 <h2>Interaction</h2>
 <p>It is also possible to display this same dataset using a much more complex, and interactive visualization.</p>
 <p>One example is the <a href="https://www.migrationpolicy.org/programs/data-hub/charts/refugee-and-asylum-seeker-populations-country-origin-and-destination?width=1000&amp;height=850&amp;iframe=true">data dashboard on the Migration Policy Institute website</a>.</p>
-<p><em>Investigate the dashboard for a few minutes and formulate two advantages and two disadvantages of this display, compared to our earlier simpler plots.</em></p>
+<p><em>Investigate the dashboard for a few minutes and identify two advantages and two disadvantages of this display, compared to our simpler plots.</em></p>
+<p>You may also want to try looking at the number of refugees entering the US, according to this graph, which uses the UNHCR dataset we’ve been using all along. It looks just like our earlier graphs, lumping refugees and those in refugee-like situations together!</p>
 </div>
 <div id="section-conversation" class="section level2">
 <h2>Conversation</h2>
-<p><em>Have one group member take notes during this final conversation that you can hand in, and perhaps share with the whole class at the end (time permitting).</em></p>
+<p><em>Have one group member take notes during this final conversation that you can hand in, and use to identify a few key insights to share with the whole class at the end.</em></p>
 <p>How did this exercise affect your knowledge of global flows of refugees? Were there surprises, or things that really stuck in your mind?</p>
 <p>Were there any discussions during this exercise that you can tie in to anything you’ve learned reading <em>Engaging God’s World</em> so far?</p>
 <p>What about links to other specific material from your section? Try to detail for your group-mates from the other section what that other material was all about, and how it relates.</p>
@@ -336,7 +360,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE,
 
 theme_set(theme_minimal(base_size = 16))
 
-refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugee-data.csv',
+refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugees-only.csv',
                    skip = 14)
 refuge2020 <- filter(refuge, 
                      Year == 2020)
@@ -391,7 +415,7 @@ learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(t
 "library(networkD3)", "knitr::opts_chunk$set(echo = FALSE, warning = FALSE,", 
 "                      message = FALSE,", "                      fig.width = 6, ", 
 "                      fig.height = 7)", "", "theme_set(theme_minimal(base_size = 16))", 
-"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugee-data.csv',", 
+"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugees-only.csv',", 
 "                   skip = 14)", "refuge2020 <- filter(refuge, ", 
 "                     Year == 2020)", "", "sources <- refuge2020 %>%", 
 "  rename(origin = `Country of origin`,", "         destination = `Country of asylum`,", 
@@ -416,7 +440,7 @@ learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(t
 "library(networkD3)", "knitr::opts_chunk$set(echo = FALSE, warning = FALSE,", 
 "                      message = FALSE,", "                      fig.width = 6, ", 
 "                      fig.height = 7)", "", "theme_set(theme_minimal(base_size = 16))", 
-"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugee-data.csv',", 
+"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugees-only.csv',", 
 "                   skip = 14)", "refuge2020 <- filter(refuge, ", 
 "                     Year == 2020)", "", "sources <- refuge2020 %>%", 
 "  rename(origin = `Country of origin`,", "         destination = `Country of asylum`,", 
@@ -441,7 +465,7 @@ learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(t
 "library(networkD3)", "knitr::opts_chunk$set(echo = FALSE, warning = FALSE,", 
 "                      message = FALSE,", "                      fig.width = 6, ", 
 "                      fig.height = 7)", "", "theme_set(theme_minimal(base_size = 16))", 
-"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugee-data.csv',", 
+"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugees-only.csv',", 
 "                   skip = 14)", "refuge2020 <- filter(refuge, ", 
 "                     Year == 2020)", "", "sources <- refuge2020 %>%", 
 "  rename(origin = `Country of origin`,", "         destination = `Country of asylum`,", 
@@ -466,7 +490,7 @@ learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(t
 "library(networkD3)", "knitr::opts_chunk$set(echo = FALSE, warning = FALSE,", 
 "                      message = FALSE,", "                      fig.width = 6, ", 
 "                      fig.height = 7)", "", "theme_set(theme_minimal(base_size = 16))", 
-"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugee-data.csv',", 
+"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugees-only.csv',", 
 "                   skip = 14)", "refuge2020 <- filter(refuge, ", 
 "                     Year == 2020)", "", "sources <- refuge2020 %>%", 
 "  rename(origin = `Country of origin`,", "         destination = `Country of asylum`,", 
@@ -491,7 +515,7 @@ learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(t
 "library(networkD3)", "knitr::opts_chunk$set(echo = FALSE, warning = FALSE,", 
 "                      message = FALSE,", "                      fig.width = 6, ", 
 "                      fig.height = 7)", "", "theme_set(theme_minimal(base_size = 16))", 
-"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugee-data.csv',", 
+"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugees-only.csv',", 
 "                   skip = 14)", "refuge2020 <- filter(refuge, ", 
 "                     Year == 2020)", "", "sources <- refuge2020 %>%", 
 "  rename(origin = `Country of origin`,", "         destination = `Country of asylum`,", 
@@ -516,7 +540,7 @@ learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(t
 "library(networkD3)", "knitr::opts_chunk$set(echo = FALSE, warning = FALSE,", 
 "                      message = FALSE,", "                      fig.width = 6, ", 
 "                      fig.height = 7)", "", "theme_set(theme_minimal(base_size = 16))", 
-"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugee-data.csv',", 
+"", "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugees-only.csv',", 
 "                   skip = 14)", "refuge2020 <- filter(refuge, ", 
 "                     Year == 2020)", "", "sources <- refuge2020 %>%", 
 "  rename(origin = `Country of origin`,", "         destination = `Country of asylum`,", 
@@ -545,7 +569,7 @@ output$`tutorial-exercise-unhcr-data-in-output` <- renderUI({
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache("unhcr-data-in", list(setup = NULL, chunks = list(list(label = "unhcr-data-in", 
-    code = "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugee-data.csv',\n                   skip = 14)", 
+    code = "refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugees-only.csv',\n                   skip = 14)", 
     opts = list(label = "\"unhcr-data-in\"", exercise = "TRUE"), 
     engine = "r")), code_check = NULL, check = NULL, solution = NULL, 
     options = list(eval = FALSE, echo = TRUE, results = "markup", 
@@ -565,7 +589,7 @@ learnr:::store_exercise_cache("unhcr-data-in", list(setup = NULL, chunks = list(
         message = FALSE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, tutorial = TRUE, label = "unhcr-data-in", 
-        exercise = TRUE, code = c("refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugee-data.csv',", 
+        exercise = TRUE, code = c("refuge <- read_csv('https://sldr.netlify.app/data/unhcr-refugees-only.csv',", 
         "                   skip = 14)"), out.width.px = 576, 
         out.height.px = 672, params.src = "unhcr-data-in, exercise = TRUE", 
         fig.num = 0, exercise.df_print = "paged", exercise.checker = "NULL"), 
@@ -823,7 +847,7 @@ output$`tutorial-exercise-all-over-time-output` <- renderUI({
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache("all-over-time", list(setup = NULL, chunks = list(list(label = "all-over-time", 
-    code = "USA <- filter(refuge, `Country of asylum` == 'United States of America') %>%\n  group_by(Year) %>%\n  summarise(usa = sum(`Refugees under UNHCR’s mandate`)) %>%\n  ungroup()\n\nall <- refuge %>%\n  group_by(Year) %>%\n  summarise(all = sum(`Refugees under UNHCR’s mandate`)) %>%\n  ungroup() %>%\n  left_join(y = USA) %>%\n  pivot_longer(cols = c(usa, all),\n               names_to = 'country',\n               values_to = 'refugees')\n\ngf_line(refugees/1000000 ~ Year,\n        color = ~country,\n        data = all) %>%\n  gf_refine(scale_color_discrete('Destination')) %>%\n  gf_labs(y = 'Millions of Refugees')", 
+    code = "USA <- filter(refuge, `Country of asylum` == 'United States of America') %>%\n  group_by(Year) %>%\n  summarise(usa = sum(`Refugees under UNHCR’s mandate`)) %>%\n  ungroup()\n\nall <- refuge %>%\n  group_by(Year) %>%\n  summarise(all = sum(`Refugees under UNHCR’s mandate`)) %>%\n  ungroup() %>%\n  left_join(y = USA) %>%\n  pivot_longer(cols = c(usa, all),\n               names_to = 'country',\n               values_to = 'refugees')\n\ngf_line(refugees/1000000 ~ Year,\n        color = ~country,\n        data = all) %>%\n  gf_refine(scale_color_discrete('Destination')) %>%\n  gf_labs(y = 'Millions of Refugees') %>%\n  plotly::ggplotly()", 
     opts = list(label = "\"all-over-time\"", exercise = "TRUE", 
         fig.width = "8", fig.height = "3"), engine = "r")), code_check = NULL, 
     check = NULL, solution = NULL, options = list(eval = FALSE, 
@@ -851,8 +875,8 @@ learnr:::store_exercise_cache("all-over-time", list(setup = NULL, chunks = list(
         "               names_to = 'country',", "               values_to = 'refugees')", 
         "", "gf_line(refugees/1000000 ~ Year,", "        color = ~country,", 
         "        data = all) %>%", "  gf_refine(scale_color_discrete('Destination')) %>%", 
-        "  gf_labs(y = 'Millions of Refugees')"), out.width.px = 768, 
-        out.height.px = 288, params.src = "all-over-time, exercise = TRUE, fig.width = 8, fig.height = 3", 
+        "  gf_labs(y = 'Millions of Refugees') %>%", "  plotly::ggplotly()"
+        ), out.width.px = 768, out.height.px = 288, params.src = "all-over-time, exercise = TRUE, fig.width = 8, fig.height = 3", 
         fig.num = 0, exercise.df_print = "paged", exercise.checker = "NULL"), 
     engine = "r"))
 </script>
