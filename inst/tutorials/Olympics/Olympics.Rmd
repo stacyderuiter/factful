@@ -153,19 +153,19 @@ sex_by_year <- olympic %>%
 
 ```
 
-```{r over-time-hint-1}
+```{r over-time-hint-1, eval = FALSE}
 gf_col(...)
 ```
 
-```{r over-time-hint-2}
+```{r over-time-hint-2, eval = FALSE}
 gf_col(..., data = sex_by_year)
 ```
 
-```{r over-time-hint-3}
+```{r over-time-hint-3, eval = FALSE}
 gf_col(perc_female ~ Year, data = sex_by_year)
 ```
 
-```{r over-time-hint-4}
+```{r over-time-hint-4, eval = FALSE}
 gf_point(perc_female ~ Year, data = sex_by_year,
        ylab = 'Percent Female') %>%
   gf_lims(y = c(0,100)) %>%
@@ -186,20 +186,20 @@ Let's look at just data for Games since 2000 for an initial look. First, we will
 
 ```
 
-```{r recent-by-country-hint-1}
+```{r recent-by-country-hint-1, eval = FALSE}
 since_2000 <- olympic %>%
   filter(Year ...) %>%
   ...
 ```
 
-```{r recent-by-country-hint-2}
+```{r recent-by-country-hint-2, eval = FALSE}
 since_2000 <- olympic %>%
   filter(Year >= 2000) %>%
   group_by(...) %>%
   summarise(perc_female = ...)
 ```
 
-```{r recent-by-country-hint-3}
+```{r recent-by-country-hint-3, eval = FALSE}
 since_2000 <- olympic %>%
   filter(Year >= 2000) %>%
   group_by(region) %>%
@@ -228,13 +228,13 @@ since_2000b <- since_2000 %>%
 
 Now, we can make the graph as before. (See how much of the code you can remember and fill in without peeking.)
 
-```{r recent-sorted, exercise = TRUE, fig.width = 5, fig.height = 28}
+```{r recent-sorted, exercise = TRUE, fig.width = 5, fig.height = 28, eval = FALSE}
 gf_point( ... ~ ..., data = ...,
           ylab = ...) %>%
   gf_refine(...)
 ```
 
-```{r recent-sorted-hint-1}
+```{r recent-sorted-hint-1, eval = FALSE}
 gf_point(region ~ perc_female, 
          data = since_2000b,
          xlab = 'Percent Female') %>%
@@ -351,7 +351,7 @@ We do need another new dataset, though -- one with one row per year and per coun
 
 ```
 
-```{r anim-data-hint-1}
+```{r anim-data-hint-1, eval = FALSE}
 animate_data <- olympic %>%
   group_by(...) %>%
   summarise(...) %>%
