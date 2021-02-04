@@ -455,14 +455,14 @@ It being Fall 2020, with a pandemic going on, you may not print many assignments
 
 When you knit a Rmd file, it will probably automatically open in RStudio's built-in PDF pre-viewer. If you print from there, it will look awful (blurry). But when you knit, a PDF of the output is also saved in your *Files* tab. If you go to the *Files* tab and double click the PDF, it should open in your computer's normal PDF viewer and you can print it from there...and it will look good.
 
-## Reflection
+<!-- ## Reflection -->
 
-```{r, reflecting, echo = FALSE}
-learnr::question('I think this tutorial is a bit too long. Do you agree? Which parts if any seemed too long, repetitive, or unnecessary to you?',
-                 answer(' ', correct = TRUE),
-                 type = 'learnr_text',
-                 allow_retry = TRUE,
-                 try_again_button = 'Edit your answer',
-                 message = 'Thank you for your submission.',
-                 incorrect = '')
-```
+<!-- ```{r, reflecting, echo = FALSE} -->
+<!-- learnr::question('I think this tutorial is a bit too long. Do you agree? Which parts if any seemed too long, repetitive, or unnecessary to you?', -->
+<!--                  answer(' ', correct = TRUE), -->
+<!--                  type = 'learnr_text', -->
+<!--                  allow_retry = TRUE, -->
+<!--                  try_again_button = 'Edit your answer', -->
+<!--                  message = 'Thank you for your submission.', -->
+<!--                  incorrect = '') -->
+<!-- ``` -->
